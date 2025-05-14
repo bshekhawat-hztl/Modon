@@ -92,8 +92,14 @@
   </head>
   <body bgcolor="#f5f5f5" style="margin:0px; padding:0px; -webkit-text-size-adjust:none;background-color:#f5f5f5">
     <center style="width: 100%; background-color:#f5f5f5;">
-      <p style="margin:5px 0; font-family: sans-serif; font-size: 13px; color: #000000; text-align: center;">
+      <p style="margin:5px 0; font-family: sans-serif; font-size: 13px; color: #000000; text-align: center;">%%[
+        %%[
+            IF _messagecontext != 'VAWP' THEN
+        ]%%
         <a href="%%view_email_url%%" target="_blank" style="font-family: sans-serif; font-size: 13px; color: #000000; text-align: center;">View in browser</a>
+        %%[
+            ENDIF
+        ]%%
       </p>
       <table width="768" border="0" cellspacing="0" cellpadding="0" align="center" class="container" style="border-radius: 8px; box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2); -webkit-box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2); -moz-box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2); border-collapse:collapse; border-spacing: 0">
         <tbody>
@@ -106,42 +112,14 @@
                        href="https://www.modon.com/home" target="_blank" alias="Modon"><img
                                                                                             img-href="https://www.modon.com/" img-target="_blank" img-responsive="0"
                                                                                             src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/04050f1d-13dc-48f7-855a-266f9f678381.jpg"
-                                                                                            alt="Modon logo" id="irgdk4" border="0" style="width:100%"></a>
+                                                                                            alt="Modon logo" id="irgdk4" border="0" style="width:100%; display:block"></a>
                   </td>
                 </tr>
               </table>
               <table class="hero" bgcolor="#ffffff" align="center" width="100%" border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
                 <tr>
                   <td>
-                    %%[ 
-Set @date = AttributeValue("Lead:CreatedDate") 
-Set @lengthDate = Length(@date)
-
-IF @lengthDate <= 9 Then
-   Set @date = "2025-03-26 22:00:00.000" 
-ENDIF   
-Set @name = AttributeValue("Lead:FirstName") 
-Set @leadSource = AttributeValue("Lead:LeadSource") 
-Set @dateString = FormatDate(@date, "ISO") 
-Set @updatedDate = DateAdd(@dateString, '4','H')
-Set @hour = FormatDate(@updatedDate, "HH")
-
-If length(@leadSource) == 0 Then
-Set @leadSource = "Walk-in"
-Endif
-
-/* output(concat("Hour -- ",@hour)) */
-/*output(concat("Length -- ", length(@leadSource)))*/
-
-
-]%%
-
-
-<table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; " class="stylingblock-content-wrapper"><tr><td class="stylingblock-content-wrapper camarker-inner"><table cellpadding="0" cellspacing="0" role="presentation" width="100%">
- 
-  <tr>
-   <td align="center">
-    %%[ IF @leadSource == "Walk-in" THEN ]%% <a alias="Modon" conversion="false" data-linkto="https://" href="https://www.modon.com/home" target="_blank" title=""><img alt="" data-assetid="48864" src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/6c229698-7ab7-4a8f-8372-f03e79f1fa3f.jpg" style="display: block; padding: 0px; text-align: center; height: auto; width: 100%; border: 0px;" width="768"></a> %%[ ELSE ]%% <a alias="Modon" conversion="false" data-linkto="https://" href="https://www.modon.com/home" target="_blank" title=""><img alt="" data-assetid="49897" src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/2d9a0fcc-ae68-481f-a8c5-18e6cebcbe5a.jpg" style="display: block; padding: 0px; text-align: center; height: auto; width: 100%; border: 0px;" width="768"></a> %%[ ENDIF ]%%</td></tr></table></td></tr></table>
+                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; " class="stylingblock-content-wrapper"><tr><td class="stylingblock-content-wrapper camarker-inner"><table width="100%" cellspacing="0" cellpadding="0" role="presentation"><tr><td align="center"><a target="_blank" href="https://www.modon.com/home" title="" alias="Modon" conversion="false" data-linkto="https://"><img data-assetid="49898" src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/3d668e2c-cd34-4836-81fa-62e59725f18d.jpg" alt="" width="768" style="display: block; padding: 0px; text-align: center; height: auto; width: 100%; border: 0px;"></a></td></tr></table></td></tr></table>
                   </td>
                 </tr>
               </table>    
@@ -150,41 +128,38 @@ Endif
           <tr>
             <td class="content" width="100%" bgcolor="#ffffff" valign="middle"
                 style="text-align: left; padding: 0px 50px; font-family: Arial, sans-serif; font-size: 16px; color:#000000">
-              <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; " class="stylingblock-content-wrapper"><tr><td class="stylingblock-content-wrapper camarker-inner"><table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" width="100%">
+              <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; " class="stylingblock-content-wrapper"><tr><td class="stylingblock-content-wrapper camarker-inner">%%[ Set @name = AttributeValue("Lead:FirstName") Set @leadRefNumber = AttributeValue("Lead:LeadNumber__c") ]%%<table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" width="100%">
  
   <tr>
    <td>
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
      
       <tr>
-       <td style="text-align: left; font-family: Arial, sans-serif; font-size: 13px; color: #000000; line-height: 18px; padding-top:20px; padding-bottom: 20px; " valign="top">
-        %%[ IF @leadSource == "Walk-in" THEN ]%%<p>
+       <td style="text-align: left; font-family: Arial, sans-serif; font-size: 13px; color: #000000; line-height: 18px; padding-top:20px; padding-bottom:25px; " valign="top">
+        <p>
          Dear %%=v(@name)=%%,</p><p>
-         Thank you for taking the time to visit our Modon Sales Centre. It was a pleasure showcasing our exclusive properties and discussing your real estate goals with you.</p><p>
-         Based on your interests during the visit, we&rsquo;ve curated a selection of listings that we believe perfectly align with what you&rsquo;re looking for.</p><p>
-         Our team will be in touch with you shortly to guide you through your options and answer any questions you may have.</p><p>
-         We look forward to continuing this exciting journey with you.</p> %%[ ELSE IF (@hour < 9) or (@hour >= 21) THEN ]%%<h2 style="font-size:33px; line-height:38px; margin-top:10px; margin-bottom:20px ">
-         Explore a world of premium real estate at your fingertips.</h2><p>
-         Dear %%=v(@name)=%%,</p><p>
-         Welcome to the world of Modon!</p><p>
-         We are delighted to have you join us and appreciate your interest in Modon Properties.</p><p>
-         Our team will be in touch with you soon, during working hours, to provide further assistance.</p><p style="margin-bottom:0">
-         In the meantime, feel free to explore some of our featured properties below &mdash; your ideal property may be just a click away!</p><table border="0" cellpadding="0" cellspacing="0" width="100%">
-         
-          <tr>
-           <td style="padding:27px 0; text-align:center">
-            <a alias="Start Your Property Search" conversion="false" data-linkto="https://" href="https://www.modon.com/home" target="_blank" title="Start Your Property Search"><img alt="Start Your Property Search" data-assetid="49762" height="42" src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/280d481f-8a86-4cca-ae23-c7eac3e440ab.png" style="padding: 0px; height: 42px; width: 319px; border: 0px;" width="319"></a></td></tr></table><p style="margin-top:0">
-         We look forward to helping you find the perfect home.</p> %%[ ELSEIF (@hour >= 9) and (@hour < 21) THEN ]%%<h2 style="font-size:33px; line-height:38px; margin-top:10px; margin-bottom:20px ">
-         Explore a world of premium real estate at your fingertips.</h2><p>
-         Dear %%=v(@name)=%%,</p><p>
-         Welcome to the world of Modon! We&rsquo;re truly delighted to have you join us and are excited about the opportunity to assist you in finding your perfect property.</p><p>
-         Our team will be in touch with you shortly to guide you through your options and answer any questions you may have.</p><p style=" margin-bottom:0">
-         In the meantime, feel free to explore our curated selection of featured properties below. Your ideal home could be just a click away, and we want to make sure you don&rsquo;t miss out!</p><table border="0" cellpadding="0" cellspacing="0" width="100%">
-         
-          <tr>
-           <td style="padding:27px 0; text-align:center">
-            <a alias="Start Your Property Search" conversion="false" data-linkto="https://" href="https://www.modon.com/home" target="_blank" title="Start Your Property Search"><img alt="Start Your Property Search" data-assetid="49762" height="42" src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/280d481f-8a86-4cca-ae23-c7eac3e440ab.png" style="padding: 0px; text-align: center; height: 42px; width: 319px; border: 0px;" width="319"></a></td></tr></table><p style="margin-top:0">
-         We look forward to helping you find a home that perfectly suits your needs and aspirations.</p> %%[ ENDIF ENDIF ]%%<p>
+         Our call centre team recently attempted to contact you, but unfortunately, we were unable to connect.</p><p>
+         Whether you&rsquo;re looking to buy, sell or explore options in the market, we&rsquo;re here to guide you through every step of the process.</p><p style="margin-bottom:0">
+         We&rsquo;d love to reconnect in a way that works best for you; please let us know your preferred method of contact, and we&rsquo;ll be happy to reach out at your convenience:</p></td></tr></table></td></tr></table></td></tr></table><table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="background-color: transparent; min-width: 100%; " class="stylingblock-content-wrapper"><tr><td style="padding: 0px; " class="stylingblock-content-wrapper camarker-inner"><table cellspacing="0" cellpadding="0" role="presentation" style="width: 100%;"><tr><td><table cellspacing="0" cellpadding="0" role="presentation" style="width: 100%;"><tr><td valign="top" class="responsive-td" style="width: 50%; padding-right: 3px;"><table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="background-color: transparent; min-width: 100%; " class="stylingblock-content-wrapper"><tr><td style="padding: 0px; " class="stylingblock-content-wrapper camarker-inner"><table width="100%">
+  <tr>
+<td align="center" valign="top" style="vertical-align:middle; text-align:right; height:50px">
+<a href="%%=RedirectTo(CloudPagesURL(880))=%%" target="_blank" alias="Email"><img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/fb1e3152-1351-432d-914e-1879d39130a6.png" alt="Email"></a></td><td align="left" valign="top" style="vertical-align:middle; text-align:left; height:50px; padding-left:5px">
+<a href="%%=RedirectTo(CloudPagesURL(880))=%%" style="font-family: Arial, sans-serif; font-size: 14px; line-height: 18px; color:#000; font-weight:bold; text-decoration:none ">Email</a></td></tr>
+</table></td></tr></table></td><td valign="top" class="responsive-td" style="width: 50%; padding-left: 3px;"><table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; " class="stylingblock-content-wrapper"><tr><td class="stylingblock-content-wrapper camarker-inner"><table width="100%">
+  <tr>
+<td align="center" valign="top" style="vertical-align:middle; text-align:right; height:50px">
+<a href="%%=RedirectTo(CloudPagesURL(894, 'ReferenceNumber', @leadRefNumber))=%%" alias="WhatsApp Chat" target="_blank"><img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/8079c42c-5119-4a9f-84be-0a780520df9c.png" alt="WhatsApp Chat"></a></td><td align="left" valign="top" style="vertical-align:middle; text-align:left; height:50px; padding-left:5px">
+<a href="%%=RedirectTo(CloudPagesURL(894, 'ReferenceNumber', @leadRefNumber))=%%" alias="WhatsApp Chat" style="font-family: Arial, sans-serif; font-size: 14px; line-height: 18px; color:#000; font-weight:bold; text-decoration:none" target="_blank">WhatsApp Chat</a></td></tr>
+</table></td></tr></table></td></tr></table></td></tr></table></td></tr></table><table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; " class="stylingblock-content-wrapper"><tr><td class="stylingblock-content-wrapper camarker-inner"><table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" width="100%">
+ 
+  <tr>
+   <td>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+     
+      <tr>
+       <td style="text-align: left; font-family: Arial, sans-serif; font-size: 13px; color: #000000; line-height: 18px; padding-top:20px;" valign="top">
+        <p style="text-align: left; font-family: Arial, sans-serif; font-size: 13px; color: #000000; line-height: 18px; margin-top:0">
+         Thank you, and we look forward to speaking with you soon!</p><p style="text-align: left; font-family: Arial, sans-serif; font-size: 13px; color: #000000; line-height: 18px;">
          Kind regards,<br>
          Modon Sales</p></td></tr></table></td></tr></table></td></tr></table>
             </td>
@@ -194,19 +169,8 @@ Endif
               <table class="content" style="padding:0 50px" bgcolor="#ffffff" align="center" width="100%" border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
                 <tr>
                   <td width="100%" style="text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 23px; font-weight: bold;">
-                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="background-color: transparent; min-width: 100%; " class="stylingblock-content-wrapper"><tr><td style="padding: 0px; " class="stylingblock-content-wrapper camarker-inner"><p style="text-align: center; font-family: Arial; font-weight: bold; font-size:23px; line-height:25px; margin:0;">
-%%[ 
-IF @leadSource == "Walk-in" THEN 
-]%%
-  <b>Explore our Properties</b>
-%%[
-ELSE
-]%%
- <b>Featured Properties</b>
-%%[
-ENDIF
-]%%
-</p></td></tr></table>
+                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="background-color: transparent; min-width: 100%; " class="stylingblock-content-wrapper"><tr><td style="padding: 20px 0px 0px; " class="stylingblock-content-wrapper camarker-inner"><p style="text-align: center; font-family: Arial; font-weight: bold; font-size:23px; line-height:25px; margin:0;">
+ <b>Explore Our Properties on Hudayriyat Island</b></p></td></tr></table>
                   </td>
                 </tr>
               </table>
@@ -217,15 +181,76 @@ ENDIF
               <table class="bottom-content" bgcolor="#ffffff" align="center" width="100%" border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
                 <tr>
                   <td style="padding-bottom:10px">
-                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; " class="stylingblock-content-wrapper"><tr><td class="stylingblock-content-wrapper camarker-inner">%%[IF (([Lead:LeadSource] == "Walk-in")) THEN]%%
-%%=BeginImpressionRegion("01__Rule_1__WelcomeJourney_Email_1_Three-Column-html-Block_D")=%%
-%%=ContentBlockById("50954")=%%
-%%=EndImpressionRegion()=%%
-%%[ELSE]%%
-%%=BeginImpressionRegion("01__Default_Content__WelcomeJourney_Email_1_Three-Column-htm")=%%
-%%=ContentBlockById("50953")=%%
-%%=EndImpressionRegion()=%%
-%%[ENDIF]%%</td></tr></table>
+                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="background-color: transparent; min-width: 100%; " class="stylingblock-content-wrapper"><tr><td style="padding: 20px 0px 10px; " class="stylingblock-content-wrapper camarker-inner"><table border="0" cellspacing="0" cellpadding="0" style="padding:0 10px">
+    <tr>
+      <td width="236px" style="width:236px;padding:0px 10px;" class="prop-box">
+        <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+          <tr>
+            <td>
+              <table width="100%" cellspacing="0" cellpadding="0" role="presentation">
+                <tr>
+                  <td align="center">
+                    <a target="_blank" href="https://www.modon.com/real-estate/al-naseem" title="" alias="Al Naseem Community" conversion="false" data-linkto="https://"><img data-assetid="49946" src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/79122cf9-fa28-427c-98ee-7451c9ccc371.jpg" alt="" width="235" style="display: block; padding: 0px; text-align: center; height: auto; width: 100%; border: 0px;"></a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="width:236px;border:1px solid #E5E7EA;padding:10px; border-radius:0 0 5px 5px">
+              <p style="text-align: center; font-size:18px; font-family:Arial,Helvetica,sans-serif;">
+   <a alias="Al Naseem Community" href="https://www.modon.com/real-estate/al-naseem" style="text-decoration:none; color:#000" target="_blank"><b>Al Naseem Community</b></a></p><p style="text-align: center; color:#64767c; font-size:16px; font-family:Arial,Helvetica,sans-serif;">
+   <a alias="Al Naseem Community" href="https://www.modon.com/real-estate/al-naseem" style="text-decoration:none; color:#64767c" target="_blank">5 &amp; 6-bedroom villas</a></p>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td width="236px" style="width:236px;padding:0px 10px;" class="prop-box">
+          <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+            <tr>
+              <td>
+                <table width="100%" cellspacing="0" cellpadding="0" role="presentation">
+                  <tr>
+                    <td align="center">
+                      <a target="_blank" href="https://www.modon.com/real-estate/nawayef-parkviews" title="" alias="Nawayef Park Views" conversion="false" data-linkto="https://"><img data-assetid="49946" src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/15a6cd3a-c4ba-4f94-8af2-9aa130296b36.jpg" alt="" width="235" style="display: block; padding: 0px; text-align: center; height: auto; width: 100%; border: 0px;"></a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="width:236px;border:1px solid #E5E7EA;padding:10px; border-radius:0 0 5px 5px">
+                <p style="text-align: center; font-size:18px; font-family:Arial,Helvetica,sans-serif;">
+   <a alias="Nawayef Park Views" href="https://www.modon.com/real-estate/nawayef-parkviews" style="text-decoration:none; color:#000" target="_blank"><b>Nawayef Park Views</b></a></p><p style="text-align: center; color:#64767c; font-size:16px; font-family:Arial,Helvetica,sans-serif;">
+   <a alias="Nawayef Park Views" href="https://www.modon.com/real-estate/nawayef-parkviews" style="text-decoration:none; color:#64767c" target="_blank">1 to 4-bedroom apartments</a></p>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td width="236px" style="width:236px;padding:0px 10px;" class="prop-box">
+          <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+            <tr>
+              <td>
+                <table width="100%" cellspacing="0" cellpadding="0" role="presentation">
+                  <tr>
+                    <td align="center">
+                      <a target="_blank" href="https://www.modon.com/real-estate/nawayef-east" title="" alias="Nawayef Heights" conversion="false" data-linkto="https://"><img data-assetid="49946" src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/8bbb661b-3b44-40c7-b776-b43a4a652b89.jpg" alt="" width="235" style="display: block; padding: 0px; text-align: center; height: auto; width: 100%; border: 0px;"></a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="width:236px;border:1px solid #E5E7EA;padding:10px; border-radius:0 0 5px 5px">
+                <p style="text-align: center; font-size:18px; font-family:Arial,Helvetica,sans-serif;">
+   <a alias="Nawayef Heights" href="https://www.modon.com/real-estate/nawayef-east" style="text-decoration:none; color:#000" target="_blank"><b>Nawayef Heights</b></a></p><p style="text-align: center; color:#526369; font-size:16px; font-family:Arial,Helvetica,sans-serif;">
+   <a alias="Nawayef Heights" href="https://www.modon.com/real-estate/nawayef-east" style="text-decoration:none; color:#64767c" target="_blank">5 to 7-bedroom hillside villas</a></p>
+              </td>
+            </tr>
+          </table>
+        </td>
+    </tr>
+  </table></td></tr></table>
                   </td>
                 </tr>
               </table>
