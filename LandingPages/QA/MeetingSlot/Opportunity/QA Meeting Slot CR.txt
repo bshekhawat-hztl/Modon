@@ -1,0 +1,54 @@
+<script runat="server">
+  Platform.Load("core","1.1.1");
+  var bookingslots=[];
+</script>
+%%[
+/* SET @ownerid='005VG00000FCcKTYA1'
+SET @md='2025-04-07' */
+SET @ownerid=RequestParameter("ownerid")
+SET @md=RequestParameter("md")
+SET @meetingDate=Concat(@md,'T00:00:00.000Z')
+SET @tommorrowDate=Concat(FormatDate(DateAdd(@md,"1","D"),"YYYY"),'-',FormatDate(DateAdd(@md,"1","D"),"MM"),'-',FormatDate(DateAdd(@md,"1","D"),"DD"),'T00:00:00.000Z')
+SET @subscriberRows=RetrieveSalesforceObjects("Event",
+                                              "StartDateTime,EndDateTime,OwnerId,Subject",
+                                              "OwnerId","=",@ownerid,
+                                              "StartDateTime",">",@meetingDate,
+                                              "EndDateTime","<",@tommorrowDate)
+                                              
+  SET @rowC=RowCount(@subscriberRows)            
+  if RowCount(@subscriberRows) >0 then 
+FOR @i=1 TO RowCount(@subscriberRows) DO
+  set @subscriberRow = Row(@subscriberRows, @i)
+  set @StartDateTime = Field(@subscriberRow, "StartDateTime")
+  set @EndDateTime = Field(@subscriberRow, "EndDateTime")
+  set @OwnerId = Field(@subscriberRow, "OwnerId")
+  set @Subject = Field(@subscriberRow, "Subject")
+]%%
+<script runat="server">
+  Platform.Load("core","1.1.1");
+  var StartDateTime = Variable.GetValue("StartDateTime");
+  var EndDateTime = Variable.GetValue("EndDateTime");
+  var i= Variable.GetValue("i");
+  var rowC=Variable.GetValue("rowC");
+  var val1='{"start":"';
+  if (i==rowC){
+    var val=val1.concat(StartDateTime,'","end":','"',EndDateTime,'"}');
+    bookingslots.push(val);
+  }
+  else{
+    var val=val1.concat(StartDateTime,'","end":','"',EndDateTime,'"}');
+    bookingslots.push(val);
+  }
+</script>
+%%[
+ NEXT @i
+endif
+]%%
+<script runat="server">
+  Platform.Load("core","1.1.1");
+  Variable.SetValue("@myVariable",bookingslots.toString());
+</script>
+%%[
+SET @myVariable1=CONCAT('[',@myVariable,']')
+OUTPUT(CONCAT(@myVariable1))
+]%%

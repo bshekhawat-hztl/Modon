@@ -1,0 +1,525 @@
+%%[
+/*SET @ownerid='005VG00000FCcKTYA1'
+SET @oppid='006VG00000G15HOYAZ'*/
+SET @ownerid=RequestParameter("ownerid")
+SET @oppid=RequestParameter("oppid")
+]%%
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Schedule a Meeting
+    </title>
+    <link rel="stylesheet" href="https://cloud.realestate.modon.com/flatpickr_css">
+    <script src="https://cloud.realestate.modon.com/flatpickrJS"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+      *{
+        box-sizing: border-box;
+      }
+      ::placeholder {
+        color:black;
+      }
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        color: #000;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        width: 100%;
+       /* height: 100%;
+        overflow: auto;*/
+        min-height: 100vh;      /* Use min-height for Safari compatibility */
+  height: auto;           /* Avoid fixed height */
+  overflow-y: auto; 
+      }
+      .main-wrapper {
+        width: 100%;
+        height: 95vh;
+      }
+      .main-container {
+        border: 1px solid #231f20;
+        width: 100%;
+        height: 100%;
+        background-color: #231f20;
+        display: flex;
+        flex-direction: column;
+        border-radius:10px;
+        overflow: hidden;
+      }
+      .container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        text-align: center;
+        background-color: #1d1b1b;
+        color: #ffffff;
+      }
+      .form-box {
+        background-color: #f4f4f4;
+        color: #000;
+        border-radius: 10px;
+        padding: 30px;
+        max-width: 700px;
+        width: 100%;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      }
+      .form-box h1 {
+        margin-bottom: 10px;
+        font-weight: normal;
+      }
+      .heading h1,h3{
+        margin-bottom: 10px;
+        font-weight: normal;
+      }
+      .form-box p {
+        font-size: 0.95em;
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 0.9em;
+        text-align: left;
+        margin-left: 10px;
+      }
+      input, select, button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 6px;
+        font-size: 1em;
+      }
+      input, select {
+        border: 1px solid #ccc;
+      }
+      #submitButton {
+        background-color: #231f20;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      /*  #submitButton:hover {
+      background-color: #1a2238;
+      }*/
+      .footer {
+        background-color: #ffffff;
+        color: #000000;
+        padding: 20px;
+      }
+      .footer-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .footer-left {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        color: #000000;
+      }
+      .social-icons {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+      .social-icons img {
+        width:25px;
+        height: 25px;
+      }
+      .social-handle {
+        font-size: 13px;
+        margin-left: 10px;
+        font-weight: 500;
+      }
+      .footer-right {
+        margin-top: 22px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        text-align: right;
+      }
+      .footer-right a {
+        color: #000000;
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .footer-right span {
+        font-size: 13px;
+        white-space: nowrap;
+        color: #000000;
+      }
+      .footer-left span a{
+        color: #000000;
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .heading {
+      }
+      @media (max-width: 815px) {
+         .main-wrapper {
+        width: 100%;
+        height: 100vh;
+      }
+        .footer{
+          text-align:center;
+        }
+        .footer-container {
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+        }
+        /*.footer-right {
+          flex-direction: column;
+          margin-top:4px;
+          justify-content: center;
+          text-align: center;
+        }*/
+        .footer-left {
+          margin-top:4px;
+          justify-content: center;
+          text-align: center;
+        }
+        .social-icons{
+          justify-content: center;
+        }
+      }
+      #ThankYouContatiner{
+        display:none;
+        padding-top:3rem;
+        color:#ffffff;
+      }
+      .datepicker-container {
+        position: relative;
+        width: 100%;
+      }
+      .datepicker-container input {
+        width: 100%;
+        padding: 10px 40px 10px 12px;
+        font-size: 16px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+      .calendar-icon {
+        position: absolute;
+        top: 35%;
+        right: 12px;
+        transform: translateY(-50%);
+        font-size: 16px;
+        color: #555;
+        cursor: pointer;
+      }
+      .logo1 {
+        margin-bottom: 2rem;
+        max-width: 200px;
+        min-width: 190px;
+      }
+      .custom-select {
+        appearance: none;
+        /* Remove default arrow */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-color: white;
+        color:black;
+        background-image: url('https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/c838b10f-7128-4923-9659-392174d05cb4.png');
+        /* Or .png */
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        /* Adjust as needed */
+        background-size: 1rem;
+        /* Adjust icon size */
+        padding-right: 2rem;
+        /* Space for the icon */
+      }
+    </style>
+    <script runat=server>
+      Platform.Response.SetResponseHeader("Strict-Transport-Security","max-age=200");
+      Platform.Response.SetResponseHeader("X-XSS-Protection","1; mode=block");
+      Platform.Response.SetResponseHeader("X-Frame-Options","Deny");
+      Platform.Response.SetResponseHeader("X-Content-Type-Options","nosniff");
+      Platform.Response.SetResponseHeader("Referrer-Policy","strict-origin-when-cross-origin");
+      Platform.Response.SetResponseHeader("Content-Security-Policy","script-src 'self' 'unsafe-inline' https://cloud.realestate.modon.com https://ajax.googleapis.com; frame-ancestors 'none'");
+    </script>
+  </head>
+  <body>
+    <div class="main-wrapper">
+      <div class="main-container">
+        <div class="container" id="FormContatiner">   
+          <div>
+            <a href="https://www.modon.com/home" target="_blank">
+              <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/f76414db-daa5-4554-9e3e-9ffac2677599.png" alt="MODON" class="logo1"></a>
+          </div>
+          <div class="heading">
+            <h1>Schedule a Meeting
+            </h1>
+            <p>Choose your preferred date and time
+            </p>
+          </div>
+          <div class="form-box">
+            <form>
+              <label for="date">Select Date</label>
+              <!-- <input type="date" id="myDate" name="date" required>-->
+              <div class="datepicker-container">
+                <input
+                       type="text"
+                       id="myDate"
+                       placeholder="mm/dd/yy"
+                       readonly
+                       >
+                <span class="calendar-icon" id="calendarIcon"><img src='https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/efc0370c-a0a8-4ef5-b752-6b2c6a861334.png'></span>
+              </div>
+              <input type="text" id="ownerId" value='%%=v(@ownerid)=%%' style='display:none;'>
+              <input type="text" id="oppId" value='%%=v(@oppid)=%%' style='display:none;'>
+              <label for="time">Select Time Slot</label>
+              <select id="timeSlot" name="time" class='custom-select' required>
+                <option disabled selected>Choose a time slot</option>
+              </select>
+              <input type="button" id="submitButton" value='Schedule a Meeting' onclick="Submit()">
+            </form>
+          </div>
+        </div>
+        <div class="container" id="ThankYouContatiner">
+          <div>
+            <a href="https://www.modon.com/home" target="_blank">
+              <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/f76414db-daa5-4554-9e3e-9ffac2677599.png" alt="MODON" class="logo1"></a>
+          </div>
+          <div class="tick" style="margin-top:7%;">
+            <img src='https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/e5e46b72-4dfe-4efa-a5ce-87f52d844b20.png' alt="success">
+          </div>
+          <div id='ThankYouPage' style="text-align: center;padding: 0px 20px 20px 20px;">
+            <h1 style="margin-bottom: 10px;font-weight:400;">Thank You!
+            </h1>
+            <h1 style="margin-bottom: 10px;font-weight:400;">Your meeting has been successfully scheduled
+            </h1>
+            <p style="margin: 0; font-size: 18px;">
+              A confirmation email will be sent to your inbox shortly with all the details.
+            </p>
+          </div>
+        </div>
+        <div class="footer">
+          %%=ContentBlockByID("51872")=%%
+        </div>
+      </div>
+    </div>
+ <script>
+      const workStart = "10:00:00";
+      const workEnd = "17:00:00";
+      const sessionDurationMinutes = 60;
+      const dateInput = document.getElementById('myDate');
+      const select = document.getElementById('timeSlot');
+      const ownerId = document.getElementById('ownerId');
+      const oppId = document.getElementById('oppId');
+      const today = new Date().toISOString().split('T')[0];
+      const date = new Date();
+const unavailable = [];
+      // Format: YYYY-MM-DD
+      // document.getElementById("myDate").setAttribute("min", today);
+      function getAvailableLocalTimeSlots(date, unavailableSlots, workStartGST = "10:00", workEndGST = "17:00") {
+        // Parse work start and end hours and minutes in GST
+        function parseHM(str) {
+          const [h, m] = str.split(":").map(Number);
+          return {
+            h, m };
+        }
+        const startGST = parseHM(workStartGST);
+        const endGST = parseHM(workEndGST);
+        const GST_OFFSET_MINUTES = 4 * 60;
+        // GST is UTC+4, offset in minutes
+        // Create date parts from local date for slot reference (year, month, day)
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+        // Helper to create a UTC date from GST time on the date
+        // GST time is UTC+4, so UTC time = GST time - 4 hours
+        function createUTCTimeFromGST(hourGST, minuteGST) {
+          return new Date(Date.UTC(year, month, day, hourGST, minuteGST) - GST_OFFSET_MINUTES * 60 * 1000);
+        }
+        // Create slots array with start and end Date objects in UTC time
+        const slotsUTC = [];
+        // Calculate start and end time in minutes from midnight GST
+        const startMinutesGST = startGST.h * 60 + startGST.m;
+        const endMinutesGST = endGST.h * 60 + endGST.m;
+        for (let slotStartMinutesGST = startMinutesGST; slotStartMinutesGST + 60 <= endMinutesGST; slotStartMinutesGST += 60) {
+          const slotEndMinutesGST = slotStartMinutesGST + 60;
+          const slotStartUTC = createUTCTimeFromGST(Math.floor(slotStartMinutesGST / 60),slotStartMinutesGST % 60);
+          const slotEndUTC = createUTCTimeFromGST(Math.floor(slotEndMinutesGST / 60),slotEndMinutesGST % 60);
+          slotsUTC.push({
+            startUTC: slotStartUTC, endUTC: slotEndUTC });
+        }
+        // Parse unavailable slots to Date objects for comparison (in UTC)
+        const occupied = unavailableSlots.map(({start, end }) => ({
+          startUTC: new Date(start),
+          endUTC: new Date(end),
+        }));
+        // Get current local Date and time for filtering past slots
+        const nowLocal = new Date();
+        // Overlap check helper
+        function isOverlapping(slot, occ) {
+          return slot.startUTC < occ.endUTC && slot.endUTC > occ.startUTC;
+        }
+        // Filter out slots overlapping any occupied slot or slots that start before current local time
+        const availableSlotsUTC = slotsUTC.filter(slot => {
+          const slotStartLocal = new Date(slot.startUTC.getTime());
+          // convert to local implicitly
+          return (
+            slotStartLocal >= nowLocal && // exclude past slots
+            !occupied.some(occ => isOverlapping(slot, occ))
+          );
+        });
+        // Format time like "h:mmAM/PM"
+        function formatLocal12HourTime(dateObj) {
+          let hours = dateObj.getHours();
+          const minutes = dateObj.getMinutes();
+          const ampm = hours >= 12 ? " PM" : " AM";
+          hours = hours % 12;
+          if (hours === 0) hours = 12;
+          // 12 AM or 12 PM
+          return `${hours}:${minutes.toString().padStart(2, "0")}${ampm}`;
+        }
+        // Return available slots in local time formatted as "h:mmAM/PM - h:mmAM/PM"
+        return availableSlotsUTC.map(slot => {
+          const startLocal = slot.startUTC;
+          const endLocal = slot.endUTC;
+          return `${formatLocal12HourTime(startLocal)} - ${formatLocal12HourTime(endLocal)}`;
+        });
+      }
+     
+      console.log(getAvailableLocalTimeSlots(date, unavailable));
+      dateInput.addEventListener('change', function () {
+        const selectedDate =dateInput.value;
+        const ownerIdValue=ownerId.value;
+        console.log('Requesting data from:', `https://cloud.realestate.modon.com/QA_mscr?ownerid=${ownerIdValue}&md=${selectedDate}`);
+        $.ajax({
+          url: `https://cloud.realestate.modon.com/QA_mscr?ownerid=${ownerIdValue}&md=${selectedDate}`,
+          method: 'GET',
+          success: function (data) {
+            console.log('Received:', data);
+            const meetings = Array.isArray(data) ? data : [];
+            select.innerHTML = '';
+            console.log(selectedDate);
+            var selectedDate1=new Date(selectedDate);
+            const availableSlots = getAvailableLocalTimeSlots(selectedDate1,meetings);
+            //const formattedSlots = availableSlots.map(slot => formatTimeRange(slot.start, slot.end));
+              select.innerHTML = '';
+              const option = document.createElement("option");
+              option.value = "Choose a time slot";
+              option.textContent = "Choose a time slot";
+              select.appendChild(option);
+              availableSlots.forEach(slot => {
+                const option = document.createElement("option");
+                option.value = slot;
+                option.textContent = slot;
+                select.appendChild(option);
+              });
+          }
+          ,
+          error: function (xhr, status, error) {
+            console.log('Error:', error);
+          }
+        });
+      });
+
+     //   function to24Hour(timeStr) {
+       //    const [time, modifier] = timeStr.trim().split(' ');
+         //  if (!modifier || !['AM', 'PM'].includes(modifier.toUpperCase())) {
+           //    throw new Error("Invalid format. Please use 'HH:MM AM/PM' format.");
+           //}
+           //let [hours, minutes] = time.split(':').map(Number);
+           //if (modifier.toUpperCase() === 'PM' && hours < 12) {
+             //   hours += 12;
+           //}
+           //if (modifier.toUpperCase() === 'AM' && hours === 12) {
+             //   hours = 0;
+          // }
+           //return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        //}
+
+      
+      function to24Hour(timeStr) {
+          const [time, modifier] = timeStr.trim().split(' ');
+          if (!modifier || !['AM', 'PM'].includes(modifier.toUpperCase())) {
+             throw new Error("Invalid format. Please use 'HH:MM AM/PM' format.");
+          }
+          let [hours, minutes] = time.split(':').map(Number);
+          if (modifier.toUpperCase() === 'PM' && hours < 12) {
+              hours += 12;
+          }
+          if (modifier.toUpperCase() === 'AM' && hours === 12) {
+              hours = 0;
+          }
+          return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      }
+
+      
+      function Submit() {
+        const date = document.getElementById('myDate').value;
+        const timeRange = document.getElementById('timeSlot').value;
+        const ownerId = document.getElementById('ownerId');
+        const oppId = document.getElementById('oppId');
+        const ownerIdValue=ownerId.value;
+        const oppIdValue=oppId.value;
+        console.log('timeRange',timeRange);
+        if (!date || !timeRange.includes(' - ')){
+          return alert("Please select a valid date and time range.");
+        }
+        const [startStr, endStr] = timeRange.split(' - ').map(t => to24Hour(t.trim()));
+        const start = new Date(`${date}T${startStr}`);
+        const end = new Date(`${date}T${endStr}`);
+        if (isNaN(start) || isNaN(end)) return alert("Invalid date/time format.");
+        console.log("Booking from:", start.toISOString(), "to", end.toISOString());
+        console.log(`https://cloud.realestate.modon.com/QA_meetingCreation?ownerid=${ownerIdValue}&startdate=${start.toISOString()}&enddate=${end.toISOString()}&oppId=${oppIdValue}`);
+        $.ajax({
+          url: `https://cloud.realestate.modon.com/QA_meetingCreation?ownerid=${ownerIdValue}&startdate=${start.toISOString()}&enddate=${end.toISOString()}&oppId=${oppIdValue}`,
+          method: 'GET',
+          success: function (data) {
+            document.getElementById("FormContatiner").style.display = "none";
+            document.getElementById("ThankYouContatiner").style.display = "block";
+          }
+          ,
+          error: function (xhr, status, error) {
+          }
+        }
+              );
+        document.getElementById("FormContatiner").style.display = "none";
+        document.getElementById("ThankYouContatiner").style.display = "block";
+      }
+      const calendar = flatpickr("#myDate", {
+        dateFormat: "Y-m-d",
+        minDate: "today",
+        disable: [
+          function(date) {
+            // Disable weekends
+            const now = new Date();
+            const isWeekend = (date.getDay() === 0 || date.getDay() === 6);
+            // Sunday or Saturday
+            const isToday = date.toDateString() === now.toDateString();
+            const after5PM = now.getHours() >= 17;
+            return isWeekend || (isToday && after5PM);
+          }
+        ],
+        clickOpens: false // So it doesn't open on input click
+      });
+      document.getElementById("calendarIcon").addEventListener("click", () => {
+        calendar.open();
+        // Open calendar on icon click
+      });
+      document.getElementById("myDate").addEventListener("click", () => {
+        calendar.open();
+        // Open calendar on icon click
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<script runat="server">
+  Platform.Load("core","1.1");
+  try {
+    var ownerID = Request.GetQueryStringParameter("ownerID");
+    var startdate = Request.GetQueryStringParameter('startdate');
+    var enddate = Request.GetQueryStringParameter("enddate");
+    var oppId = Request.GetQueryStringParameter('oppId');
+ 
+  //  Write("StartDateTime: " + startdate);
+  //  Write("EndDateTime: " + enddate);
+  //  Write("OwnerId: " + ownerID);
+  //  Write("WhatId: " + oppId);
+  //  Write("Subject: " + "Meeting");
+
+    var fieldArr = [];
+    fieldArr.push('StartDateTime');
+    fieldArr.push(startdate);
+    fieldArr.push('EndDateTime');
+    fieldArr.push(enddate);
+    fieldArr.push('OwnerId');
+    fieldArr.push(ownerID);
+    fieldArr.push('WhatId');
+    fieldArr.push(oppId);
+    fieldArr.push('Subject');
+    fieldArr.push('Meeting');
+    var updateSFObject = "";
+                updateSFObject += "\%\%[";
+                updateSFObject += "set @SFUpdateResults = CreateSalesforceObject('Event', 5,'";
+                updateSFObject += fieldArr.join("','") + "'";
+                updateSFObject += ") ";
+                 updateSFObject += "output(concat(@SFUpdateResults)) ";
+                updateSFObject += "]\%\%";
+      Write(updateSFObject)   
+    var results = Platform.Function.TreatAsContent(updateSFObject);
+ Write("final result - " + Stringify(results));
+var de = DataExtension.Init("97F503B5-9A13-4B47-8FC3-ADD5D9565C53");
+ 
+        var payload = {
+            OpportunityId: oppId,
+            OwnerId : ownerID,
+            JSError : "No error"
+        };
+
+        var result = de.Rows.Add(payload);
+  }
+  catch (err) {
+    Write("Error Message-------------------: " + Stringify(err.message) + Stringify(err.description));
+        var de = DataExtension.Init("97F503B5-9A13-4B47-8FC3-ADD5D9565C53");
+ 
+        var payload = {
+            OpportunityId: oppId,
+            OwnerId : ownerID,
+            JSError : err
+        };
+
+        var result = de.Rows.Add(payload);
+  }
+</script>
