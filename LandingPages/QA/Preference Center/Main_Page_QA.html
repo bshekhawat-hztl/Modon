@@ -1,0 +1,1688 @@
+<!--ampscript starts-->
+%%[
+    SET @crmId = _subscriberkey
+    /*Output(concat("<br>crmId: ",Substring(@crmId,1, 3)))
+    var @emailSubscriptionStatus=''
+  SET @crmId = '00QVG00000FHIKr2AP'
+    SET @crmId = '00QVG00000Gzmxn2AB'*/
+    Set @subType=Substring(@crmId,1, 3)
+    IF NOT Empty(@crmId) THEN
+    IF (@subType=='00Q') THEN
+    SET @leadRows = RetrieveSalesforceObjects("Lead",
+  "Id,Title__c,FirstName,LastName,Email,MobilePhone,CountryOfResidence__c,Designation__c,LanguagePreference__c,CustomerBudget__c,Investment__c,EmailSubscriptionstatus__c,ConvertedOpportunityId",
+    "Id","=", @crmId )
+    
+       IF RowCount(@leadRows) == 1 THEN 
+            set @leadRow = Row(@leadRows, 1) 
+            set @crmId = Field(@leadRow, "Id")
+            set @title = Field(@leadRow, "Title__c")
+            set @firstName = Field(@leadRow, "FirstName")
+            set @lastName = Field(@leadRow, "LastName")
+            set @email = Field(@leadRow, "Email")
+            set @phone = Field(@leadRow, "MobilePhone")
+            set @countryOfResidence = Field(@leadRow, "CountryOfResidence__c")
+            set @designation = Field(@leadRow, "Designation__c")
+            set @languagePreference = Field(@leadRow, "LanguagePreference__c")
+            set @customerBudget = Field(@leadRow, "CustomerBudget__c")
+            set @investment = Field(@leadRow, "Investment__c")
+            set @emailSubscriptionStatus = Field(@leadRow, "EmailSubscriptionstatus__c")
+            
+            /*set @convertedOpportunityId = Field(@leadRow, "ConvertedOpportunityId")
+            Output(concat("investment:  ",@investment))*/
+      ENDIF
+      ENDIF
+      IF (@subType=='003') THEN
+      SET @oppRows = RetrieveSalesforceObjects("Opportunity",
+  "Id,Designation__c,LanguagePreference__c,CustomerBudget__c,Country__c",
+    "ContactId","=", @crmId )
+    SET @accRows = RetrieveSalesforceObjects("Account",
+  "Id,PersonTitle,FirstName,LastName,PersonEmail,PersonMobilePhone",
+    "PersonContactId","=", @crmId )
+      IF RowCount(@oppRows) == 1 THEN 
+            set @oppRow = Row(@oppRows, 1) 
+            set @opportunityId = Field(@oppRow, "Id")
+            set @designation = Field(@oppRow, "Designation__c")
+            set @languagePreference = Field(@oppRow, "LanguagePreference__c")
+            set @customerBudget = Field(@oppRow, "CustomerBudget__c")
+            set @countryOfResidence = Field(@oppRow, "Country__c")
+      ENDIF
+      IF RowCount(@accRows) == 1 THEN 
+            set @accRow = Row(@accRows, 1) 
+            set @accId = Field(@accRow, "Id")
+            set @title = Field(@accRow, "PersonTitle")
+            set @firstName = Field(@accRow, "FirstName")
+            set @lastName = Field(@accRow, "LastName")
+            set @email = Field(@accRow, "PersonEmail")
+            set @phone = Field(@accRow, "PersonMobilePhone")
+            /*Output(concat("phone:  ",@phone))
+            Output(concat("<br>email:  ",@email))*/
+      ENDIF
+      ENDIF
+      
+    ENDIF
+    var @events,@offers, @newsletters, @destinations, @realEstate
+    set @rows = LookupRows("Master_CPC","SubscriberKey", @crmId)
+    set @rowCount = rowcount(@rows)
+
+    IF @rowCount > 0 then
+
+      for @i = 1 to @rowCount do
+
+        set @row = row(@rows, @i) 
+        set @birthday = field(@row,"Birthday​")
+        set @numberOfFamilyMembers = field(@row,"NumberOfFamilyMembers​")
+        set @numberOfKids = field(@row,"NumberOfKids")
+        set @surfing = field(@row,"Surfing")
+        set @cycling = field(@row,"Cycling")
+        set @skating = field(@row,"Skating")
+        set @mountainBiking = field(@row,"MountainBiking")
+        set @fB = field(@row,"F&B")
+        set @gym = field(@row,"Gym")
+        set @kidsActivities = field(@row,"KidsActivities")
+        set @healthBeauty = field(@row,"Health&Beauty")
+        set @spaWellness = field(@row,"Spa&Wellness")
+        set @shopping = field(@row,"Shopping")
+        set @artExhibitions = field(@row,"Art&Exhibitions")
+        set @beaches = field(@row,"Beaches")
+        set @waterSports = field(@row,"WaterSports")
+        
+        set @sports = field(@row,"321Sports")
+        set @yachting = field(@row,"Yachting")
+        set @circuitX = field(@row,"CircuitX")
+        set @marina = field(@row,"Marina")
+        set @babAlNojoumResorts = field(@row,"BabAlNojoumResorts")
+        set @familyActivities = field(@row,"FamilyActivities")
+        
+        
+       next @i 
+      /*Output(concat("surfing:  ",@surfing))*/
+     IF @surfing == 'True' then
+        set @surfing = "checked"
+      ENDIF
+      IF @cycling == 'True' then
+        set @cycling = "checked"
+      ENDIF
+      IF @skating == 'True' then
+        set @skating = "checked"
+      ENDIF
+      IF @mountainBiking == 'True' then
+        set @mountainBiking = "checked"
+      ENDIF
+      IF @fB == 'True' then
+        set @fB = "checked"
+      ENDIF
+      IF @gym == 'True' then
+        set @gym = "checked"
+      ENDIF
+      IF @kidsActivities == 'True' then
+        set @kidsActivities = "checked"
+      ENDIF
+      IF @healthBeauty == 'True' then
+        set @healthBeauty = "checked"
+      ENDIF
+      IF @spaWellness == 'True' then
+        set @spaWellness = "checked"
+      ENDIF
+      IF @shopping == 'True' then
+        set @shopping = "checked"
+      ENDIF
+      IF @artExhibitions == 'True' then
+        set @artExhibitions = "checked"
+      ENDIF
+      IF @beaches == 'True' then
+        set @beaches = "checked"
+      ENDIF
+      IF @waterSports == 'True' then
+        set @waterSports = "checked"
+      ENDIF
+      IF @sports == 'True' then
+        set @sports = "checked"
+      ENDIF
+      IF @yachting == 'True' then
+        set @yachting = "checked"
+      ENDIF
+      IF @circuitX == 'True' then
+        set @circuitX = "checked"
+      ENDIF
+      IF @marina == 'True' then
+        set @marina = "checked"
+      ENDIF
+      IF @babAlNojoumResorts == 'True' then
+        set @babAlNojoumResorts = "checked"
+      ENDIF
+      IF @familyActivities == 'True' then
+        set @familyActivities = "checked"
+      ENDIF
+   ENDIF 
+   If (@designation != 'Accountant' and @designation != 'Auditor' and @designation != 'Banker' and @designation != 'Broker' and @designation != 'Business Consultant' and @designation != 'Celebrity' and @designation != 'CEO' and @designation != 'Chief Operation Officer' and @designation != 'Chief Financial Officer' and @designation != 'Chief Technology Officer' and @designation != 'Director' and @designation != 'Diplomat' and @designation != 'Doctor' and @designation != 'Engineer' and @designation != 'Executive Vice President' and @designation != 'Finance Executive' and @designation != 'Finance Manager' and @designation != 'Finance Director' and @designation != 'Graphic Designer' and @designation != 'HR Executive' and @designation != 'HR Manager' and @designation != 'HR Director' and @designation != 'IT Executive' and @designation != 'IT Manager' and @designation != 'IT Director' and @designation != 'Lawyer / Advocate' and @designation != 'Legal Consultant / Advisor' and @designation != 'Manager' and @designation != 'Marketing Executive' and @designation != 'Marketing Manager' and @designation != 'Marketing Director' and @designation != 'Painter' and @designation != 'Partner' and @designation != 'Pharmacist' and @designation != 'Pilot' and @designation != 'Police Officer' and @designation != 'Public Relations Officer' and @designation != 'Sales Consultant' and @designation != 'Sales Manager' and @designation != 'Social Media Influencer' and @designation != 'Teacher' and @designation != 'Therapist' and @designation != 'Vice President' and Not Empty(@designation)) Then
+        set @designationOther = @designation
+        set @designation = "Other"
+   ENDIF
+   
+
+]%%
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<script>
+  var emailSubscriptionStatus = "%%=v(@emailSubscriptionStatus)=%%";
+  if(emailSubscriptionStatus === 'No') {
+      var crmId = "%%=Base64Encode(@crmId)=%%";
+      window.location.href = "https://cloud.realestate.modon.com/resubscribe_page_qa?sfid=" + crmId;
+  }
+</script>
+<script runat="server">
+    Platform.Load("core", "1.1.1")
+  var prox = new Script.Util.WSProxy();
+    var subKey = Variable.GetValue("@crmId") //Assign to SSJS variable
+    /*var emailSubscriptionStatus = Variable.GetValue("@emailSubscriptionStatus")
+    if(emailSubscriptionStatus === 'No'){
+         var link= "https://cloud.realestate.modon.com/resubscribe_page_qa?sfid="
+         var dynamicValue=btoa(subKey)
+         var finalLink= link.concat(dynamicValue)
+          Platform.Response.Redirect(finalLink)
+        }*/
+    /*Write("<br>subKey: " + subKey)*/
+    var listID = "822"; // Replace with the actual ListID
+var cols = ["ListID", "SubscriberKey", "Status"];
+var complexFilter = {
+    LeftOperand: {
+      Property: "SubscriberKey",
+      SimpleOperator: "equals",
+      Value: subKey
+    },
+    LogicalOperator: "AND",
+    RightOperand: {
+      Property: "ListID",
+      SimpleOperator: "equals",
+      Value: listID
+    }
+  };
+
+  var result = prox.retrieve("ListSubscriber", cols, complexFilter);
+  var realEstate = result.Results[0].Status;
+  Variable.SetValue("@realEstate", realEstate);
+  /*Write("<br>result1: " + Stringify(result))*/
+  var listID = "821";
+  var complexFilter = {
+    LeftOperand: {
+      Property: "SubscriberKey",
+      SimpleOperator: "equals",
+      Value: subKey
+    },
+    LogicalOperator: "AND",
+    RightOperand: {
+      Property: "ListID",
+      SimpleOperator: "equals",
+      Value: listID
+    }
+  };
+  var result = prox.retrieve("ListSubscriber", cols, complexFilter);
+  var destinations = result.Results[0].Status;
+  Variable.SetValue("@destinations", destinations);
+  /*Write("<br>result2: " + Stringify(result))*/
+  var listID = "819";
+  var complexFilter = {
+    LeftOperand: {
+      Property: "SubscriberKey",
+      SimpleOperator: "equals",
+      Value: subKey
+    },
+    LogicalOperator: "AND",
+    RightOperand: {
+      Property: "ListID",
+      SimpleOperator: "equals",
+      Value: listID
+    }
+  };
+  var result = prox.retrieve("ListSubscriber", cols, complexFilter);
+  var newsletters = result.Results[0].Status;
+  Variable.SetValue("@newsletters", newsletters);
+  /*Write("<br>result3: " + Stringify(result))*/
+  var listID = "820";
+  var complexFilter = {
+    LeftOperand: {
+      Property: "SubscriberKey",
+      SimpleOperator: "equals",
+      Value: subKey
+    },
+    LogicalOperator: "AND",
+    RightOperand: {
+      Property: "ListID",
+      SimpleOperator: "equals",
+      Value: listID
+    }
+  };
+  var result = prox.retrieve("ListSubscriber", cols, complexFilter);
+  var offers = result.Results[0].Status;
+  Variable.SetValue("@offers", offers);
+  /*Write("<br>result4: " + Stringify(result))*/
+  var listID = "818";
+  var complexFilter = {
+    LeftOperand: {
+      Property: "SubscriberKey",
+      SimpleOperator: "equals",
+      Value: subKey
+    },
+    LogicalOperator: "AND",
+    RightOperand: {
+      Property: "ListID",
+      SimpleOperator: "equals",
+      Value: listID
+    }
+  };
+  var result = prox.retrieve("ListSubscriber", cols, complexFilter);
+  var events = result.Results[0].Status;
+  Variable.SetValue("@events", events);
+  /*Write("<br>result5: " + Stringify(result))
+    Write("<br>realState: " + realState)
+  Write("<br>destinations: " + destinations)
+  Write("<br>newsletters: " + newsletters)
+        Write("<br>offers: " + offers)
+  Write("<br>events: " + events)*/
+    
+    
+ </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cloud.realestate.modon.com/flatpickr_css">
+    <script src="https://cloud.realestate.modon.com/flatpickrJS"></script>
+    <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script-->
+
+    <title>MODON Preference Center
+    </title>
+    <style>
+      .birthday-flatpickr {
+  color: #000 !important;
+}
+.birthday-flatpickr::placeholder {
+  color: #888 !important;
+  opacity: 1 !important;
+  text-align: left;
+}
+
+/* Safari fix: Prevent centering of readonly text */
+input.birthday-flatpickr[readonly] {
+  text-align: left !important;
+  color: #000 !important;
+}
+/* Handle autofill and WebKit styles */
+.birthday-flatpickr:-webkit-autofill,
+.birthday-flatpickr:-webkit-autofill:focus,
+.birthday-flatpickr:-webkit-autofill:hover,
+.birthday-flatpickr:-webkit-autofill:active {
+  -webkit-text-fill-color: #000 !important;
+  transition: background-color 9999s ease-out;
+  background-color: #fff !important;
+}
+      .birthday-flatpickr {
+  background: url('https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/efc0370c-a0a8-4ef5-b752-6b2c6a861334.png') no-repeat right 10px center;
+  background-size: 20px;
+  padding-right: 30px; /* space for icon */
+  cursor: pointer;
+        opacity: 1;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        text-align: left !important;
+}
+      .custom-select {
+        appearance: none;
+        /* Remove default arrow */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-color: white;
+        color:black;
+        background-image: url('https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/c838b10f-7128-4923-9659-392174d05cb4.png');
+        /* Or .png */
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        /* Adjust as needed */
+        background-size: 1rem;
+        /* Adjust icon size */
+        padding-right: 2rem;
+        /* Space for the icon */
+      }
+      .terms a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 12px;
+}
+      .footer-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 12px;
+}
+      .missing-field {
+  border: 2px solid red;
+}
+      /* Reset and base styles */
+      .motivation-card.selected {
+  border-color: #000;
+  background-color: #ffffff;
+}
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        background-color: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+      }
+      /* Main container with borders on all sides */
+      .headerContainer {
+        max-width: 800px;
+        margin: 0 auto;
+        border: 0px solid #ccc;
+        /* Border on all sides */
+        background-color: #fff;
+      }
+      .footerContainer {
+        max-width: 800px;
+        margin: 0 auto;
+        border: 0px solid #ccc;
+        /* Border on all sides */
+        background-color: #fff;
+      }
+      
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        border-top: 0px solid #ccc;
+        border-bottom: 0px solid #ccc;
+        border-left: 2px solid #ccc;
+        border-right: 2px solid #ccc;
+        /* Border on all sides */
+        background-color: #fff;
+      }
+      /* Header styles */
+      .header {
+        background-color: #000000;
+        color: white;
+        padding: 30px 20px 5px 20px;
+      }
+      .header-table {
+        width: 100%;
+      }
+      .logo-cell {
+        text-align: center;
+      }
+      .title-cell {
+        text-align: right;
+      }
+      .logo {
+        height: 40px;
+      }
+      /* Section styles with borders */
+      .section {
+        padding: 30px;
+        border-bottom: 2px solid #ccc;
+      }
+      .communicationSection {
+        padding: 30px;
+        border-bottom: 0px solid #ccc;
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 600;
+        font-size: 24px;
+      }
+      /* Form tables */
+      .form-table {
+        width: 100%;
+        margin-bottom: 15px;
+        border-collapse: collapse;
+      }
+      .form-table td {
+        padding: 5px 5px 0px 5px;
+        vertical-align: top;
+      }
+      .label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+      }
+      input, select {
+        width: 100%;
+        padding: 8px;
+        border: 1.7px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      
+      input#birthday,
+input.birthday-flatpickr,
+.flatpickr-input {
+  height: 44px;
+  font-size: 16px; /* 16px minimum prevents zooming on iOS */
+  padding: 10px 12px;
+  box-sizing: border-box;
+  text-align: left !important;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+}
+      /* Motivation cards */
+      .motivation-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 15px;
+        padding:0px 0px 5px 0px !important;
+      }
+      .motivation-card {
+        border: 1.7px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.3s;
+        margin: 0px 5px 0px 5px;
+      }
+      .motivation-card:hover {
+        border-color: #1a1a1a;
+      }
+      .icon {
+        font-size: 24px;
+        /*margin-bottom: 10px;*/
+      }
+      /* Interests grid */
+      .interests-table {
+        width: 100%;
+        border-collapse: collapse;
+        /*margin-top: 10px;*/
+      }
+      .interest-cell {
+        padding: 5px;
+        width: 33.33%;
+      }
+      .interest-item {
+        border: 1.7px solid #ddd;
+        border-radius: 4px;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+      }
+      .interest-item input {
+        width: auto;
+        margin-right: 10px;
+      }
+      /* Communication preferences */
+      .comm-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+      }
+      .comm-cell {
+        padding: 5px;
+        width: 33.33%;
+      }
+      .comm-card {
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        padding: 15px;
+        background-color: #eeeeee;
+      }
+      .comm-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+      .comm-title input {
+        width: auto;
+        margin-right: 10px;
+      }
+      .comm-desc {
+        font-size: 12px;
+        color: #000;
+        margin-left: 24px;
+      }
+      .unsubscribe {
+        display: flex;
+        align-items: center;
+        /*margin-bottom: 20px;*/
+        padding: 0px 5px 0px 5px;
+
+      }
+      .unsubscribe input {
+        width: auto;
+        margin-right: 10px;
+      }
+      /* Save button */
+      .save-btn {
+        text-align: right;
+      }
+      button.save {
+        background-color: #1a1a1a;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      button.save:hover {
+        background-color: #333;
+      }
+      /* Footer styles */
+      .footer {
+        background-color: #000000;
+        color: white;
+        padding: 40px 55px 20px 55px;
+      }
+      .footer-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .footer-links td {
+        padding: 5px 40px 5px 0;
+        font-size: 12px;
+        cursor: pointer;
+        vertical-align: top;
+      }
+      .social-icons {
+        text-align: right;
+        vertical-align: top;
+      }
+      .social-icon {
+        width: 34px;
+        height: 34px;
+      }
+      .footer-bottom {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #333;
+        font-size: 12px;
+        color: #999;
+      }
+      .terms {
+        font-size: 12px;
+      }
+      .footer-logo {
+        text-align: center;
+        /*margin-top: 20px;*/
+      }
+      .footer-logo img {
+        height: 25px;
+      }
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+        .form-table td {
+          display: block;
+          width: 100%;
+        }
+        .motivation-table td {
+          display: block;
+          width: 100%;
+        }
+        .interests-table td {
+          display: block;
+          width: 100%;
+        }
+        .comm-table td {
+          display: block;
+          width: 100%;
+        }
+        .footer-links {
+    width: 100% !important;
+  }
+
+  .footer-links tr,
+  .footer-links td {
+    display: block !important;
+    width: 100% !important;
+    text-align: left !important;
+  }
+
+  .footer-links td.social-icons {
+    order: 2;
+    margin-top: 20px;
+  }
+
+  .footer-links td.menu-links {
+    order: 1;
+  }
+        .footer-table,
+  .footer-links,
+  .footer-links tr,
+  .footer-links td {
+    display: block !important;
+    width: 100% !important;
+    text-align: left !important;
+  }
+
+  .footer-links a {
+    display: block;
+    padding: 5px 0px 0px 0px;
+  }
+
+  .social-icons {
+    text-align: left !important;
+    display: block;
+  }
+
+  .terms {
+    text-align: left !important;
+    margin-top: 0px !important;;
+  }
+
+  .terms a {
+    display: block;
+    padding: 5px 0;
+  }
+        /*.footer-links td {
+          display: block;
+          width: 100%;
+          padding: 5px 0;
+        }
+        .social-icons {
+          text-align: left;
+          margin-top: 20px;
+        }
+        .footer-bottom td {
+          display: block;
+          width: 100%;
+          text-align: center;
+          padding: 5px 0;
+        }*/
+      }
+      /* Small mobile devices */
+      @media (max-width: 480px) {
+        .header-table td {
+          display: block;
+          width: 100%;
+          text-align: center;
+        }
+        .title-cell {
+          text-align: center;
+          margin-top: 10px;
+        }
+        .save-btn {
+          text-align: center;
+        }
+        button.save {
+          width: 100%;
+        }
+      }
+      @media (max-width: 768px) {
+  .footer-table {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-table > tr {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-table td {
+    width: 100% !important;
+    display: block;
+    text-align: left !important;
+  }
+
+
+  .social-icons {
+    text-align: left !important;
+  }
+
+  .terms {
+    text-align: left !important;
+  }
+
+  .footer-logo {
+    text-align: left;
+    margin-top: 20px;
+  }
+}
+    </style>
+    <script runat=server>
+    Platform.Response.SetResponseHeader("Strict-Transport-Security","max-age=200");
+    Platform.Response.SetResponseHeader("X-XSS-Protection","1; mode=block");
+    Platform.Response.SetResponseHeader("X-Frame-Options","Deny");
+    Platform.Response.SetResponseHeader("X-Content-Type-Options","nosniff");
+    Platform.Response.SetResponseHeader("Referrer-Policy","strict-origin-when-cross-origin");
+  Platform.Response.SetResponseHeader("Content-Security-Policy","script-src 'self' 'unsafe-inline' https://cloud.realestate.modon.com https://ajax.googleapis.com; frame-ancestors 'none'");
+    
+
+</script>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="headerContainer">
+       <div class="header">
+        <table class="header-table">
+          <tr>
+            <td class="logo-cell">
+              <a href="https://www.modon.com/home" target="_blank">
+                <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/ce42fab2-ff1a-46ef-9657-93c8a0301907.jpeg" alt="MODON" class="logo"></a>
+            </td>
+          </tr>
+          <tr>
+            <td class="title-cell">Preference Center
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="container">
+      
+      
+      <!-- Personal Information Section -->
+      <div class="section">
+        <h2>Personal Information
+        </h2>
+        <table class="form-table">
+          <tr>
+            <td width="33%">
+              <label class="label" for="title">Title</label>
+              <select id="title" class="custom-select">
+                <option value=" " %%=IIF(@title=='' ,'selected', "" )=%%>Select</option>
+                <option value="Mr." %%=IIF(@title=='Mr.' ,'selected', "" )=%%>Mr.</option>
+                <option value="Mrs." %%=IIF(@title=='Mrs.' ,'selected', "" )=%%>Mrs.</option>
+                <option value="Ms." %%=IIF(@title=='Ms.' ,'selected', "" )=%%>Ms.</option>
+              </select>
+            </td>
+            <td width="33%">
+              <label class="label" for="firstName">First Name<sup>*</sup></label>
+              <input type="text" id="firstName" value="%%=v(ProperCase(@firstName))=%%" required>
+            </td>
+            <td width="33%">
+              <label class="label" for="lastName">Last Name<sup>*</sup></label>
+              <input type="text" id="lastName" value="%%=v(ProperCase(@lastName))=%%" required>
+            </td>
+          </tr>
+        </table>
+        <table class="form-table">
+          <tr>
+            <td width="33%">
+              <label class="label" for="email">Email<sup>*</sup></label>
+              <input type="email" id="email" value="%%=v(@email)=%%" readonly required style="background-color: #e9ecef;cursor: not-allowed;">
+            </td>
+            <td width="33%">
+              <label class="label" for="phone">Phone<sup>*</sup></label>
+              <input type="tel" id="phone" value="%%=v(ProperCase(@phone))=%%" readonly required style="background-color: #e9ecef;cursor: not-allowed;">
+            </td>
+            <td width="33%">
+              <label class="label" for="birthday">Birthday</label>
+              <input 
+  type="text" 
+  id="birthday" 
+  class="birthday-flatpickr" 
+  placeholder="mm/dd/yy" 
+  value="%%=v(@birthday)=%%"
+>
+            </td>
+          </tr>
+        </table>
+        <table class="form-table">
+          <tr>
+            <td width="33%">
+              <label class="label" for="country">Country<sup>*</sup></label>
+              <select id="country" name="country" required class="custom-select">
+                 <option value="" selected>Select Country of Residence</option>
+                 <option value="United Arab Emirates" %%=IIF(@countryOfResidence=='United Arab Emirates', "selected", "")=%%>United Arab Emirates</option>
+                 <option value="Afghanistan" %%=IIF(@countryOfResidence=='Afghanistan', "selected", "")=%%>Afghanistan</option>
+                 <option value="Albania" %%=IIF(@countryOfResidence=='Albania', "selected", "")=%%>Albania</option>
+                 <option value="Algeria" %%=IIF(@countryOfResidence=='Algeria', "selected", "")=%%>Algeria</option>
+                 <option value="Andorra" %%=IIF(@countryOfResidence=='Andorra', "selected", "")=%%>Andorra</option>
+                 <option value="Angola" %%=IIF(@countryOfResidence=='Angola', "selected", "")=%%>Angola</option>
+                 <option value="Argentina" %%=IIF(@countryOfResidence=='Argentina', "selected", "")=%%>Argentina</option>
+                 <option value="Armenia" %%=IIF(@countryOfResidence=='Armenia', "selected", "")=%%>Armenia</option>
+                 <option value="Aruba" %%=IIF(@countryOfResidence=='Aruba', "selected", "")=%%>Aruba</option>
+                 <option value="Australia" %%=IIF(@countryOfResidence=='Australia', "selected", "")=%%>Australia</option>
+                 <option value="Austria" %%=IIF(@countryOfResidence=='Austria', "selected", "")=%%>Austria</option>
+                 <option value="Azerbaijan" %%=IIF(@countryOfResidence=='Azerbaijan', "selected", "")=%%>Azerbaijan</option>
+                 <option value="Bahamas" %%=IIF(@countryOfResidence=='Bahamas', "selected", "")=%%>Bahamas</option>
+                 <option value="Bahrain" %%=IIF(@countryOfResidence=='Bahrain', "selected", "")=%%>Bahrain</option>
+                 <option value="Barbados" %%=IIF(@countryOfResidence=='Barbados', "selected", "")=%%>Barbados</option>
+                 <option value="Belarus" %%=IIF(@countryOfResidence=='Belarus', "selected", "")=%%>Belarus</option>
+                 <option value="Belgium" %%=IIF(@countryOfResidence=='Belgium', "selected", "")=%%>Belgium</option>
+                 <option value="Bolivia" %%=IIF(@countryOfResidence=='Bolivia', "selected", "")=%%>Bolivia</option>
+                 <option value="Bosnia and Herzegovina" %%=IIF(@countryOfResidence=='Bosnia and Herzegovina', "selected", "")=%%>Bosnia and Herzegovina</option>
+                 <option value="Botswana" %%=IIF(@countryOfResidence=='Botswana', "selected", "")=%%>Botswana</option>
+                 <option value="Brazil" %%=IIF(@countryOfResidence=='Brazil', "selected", "")=%%>Brazil</option>
+                 <option value="Bulgaria" %%=IIF(@countryOfResidence=='Bulgaria', "selected", "")=%%>Bulgaria</option>
+                 <option value="Cambodia" %%=IIF(@countryOfResidence=='Cambodia', "selected", "")=%%>Cambodia</option>
+                 <option value="Cameroon" %%=IIF(@countryOfResidence=='Cameroon', "selected", "")=%%>Cameroon</option>
+                 <option value="Canada" %%=IIF(@countryOfResidence=='Canada', "selected", "")=%%>Canada</option>
+                 <option value="Central African Republic" %%=IIF(@countryOfResidence=='Central African Republic', "selected", "")=%%>Central African Republic</option>
+                 <option value="Chile" %%=IIF(@countryOfResidence=='Chile', "selected", "")=%%>Chile</option>
+                 <option value="China" %%=IIF(@countryOfResidence=='China', "selected", "")=%%>China</option>
+                 <option value="Colombia" %%=IIF(@countryOfResidence=='Colombia', "selected", "")=%%>Colombia</option>
+                 <option value="Congo" %%=IIF(@countryOfResidence=='Congo', "selected", "")=%%>Congo</option>
+                 <option value="Costa Rica" %%=IIF(@countryOfResidence=='Costa Rica', "selected", "")=%%>Costa Rica</option>
+                 <option value="Cote DIvoire" %%=IIF(@countryOfResidence=='Cote DIvoire', "selected", "")=%%>Cote DIvoire</option>
+                 <option value="Croatia" %%=IIF(@countryOfResidence=='Croatia', "selected", "")=%%>Croatia</option>
+                 <option value="Cuba" %%=IIF(@countryOfResidence=='Cuba', "selected", "")=%%>Cuba</option>
+                 <option value="Cyprus North" %%=IIF(@countryOfResidence=='Cyprus North', "selected", "")=%%>Cyprus North</option>
+                 <option value="Cyprus South" %%=IIF(@countryOfResidence=='Cyprus South', "selected", "")=%%>Cyprus South</option>
+                 <option value="Czech Republic" %%=IIF(@countryOfResidence=='Czech Republic', "selected", "")=%%>Czech Republic</option>
+                 <option value="Denmark" %%=IIF(@countryOfResidence=='Denmark', "selected", "")=%%>Denmark</option>
+                 <option value="Dominica" %%=IIF(@countryOfResidence=='Dominica', "selected", "")=%%>Dominica</option>
+                 <option value="Dominican Republic" %%=IIF(@countryOfResidence=='Dominican Republic', "selected", "")=%%>Dominican Republic</option>
+                 <option value="Ecuador" %%=IIF(@countryOfResidence=='Ecuador', "selected", "")=%%>Ecuador</option>
+                 <option value="Egypt" %%=IIF(@countryOfResidence=='Egypt', "selected", "")=%%>Egypt</option>
+                 <option value="Estonia" %%=IIF(@countryOfResidence=='Estonia', "selected", "")=%%>Estonia</option>
+                 <option value="Ethiopia" %%=IIF(@countryOfResidence=='Ethiopia', "selected", "")=%%>Ethiopia</option>
+                 <option value="Fiji" %%=IIF(@countryOfResidence=='Fiji', "selected", "")=%%>Fiji</option>
+                 <option value="Finland" %%=IIF(@countryOfResidence=='Finland', "selected", "")=%%>Finland</option>
+                 <option value="France" %%=IIF(@countryOfResidence=='France', "selected", "")=%%>France</option>
+                 <option value="French Polynesia" %%=IIF(@countryOfResidence=='French Polynesia', "selected", "")=%%>French Polynesia</option>
+                 <option value="Gabon" %%=IIF(@countryOfResidence=='Gabon', "selected", "")=%%>Gabon</option>
+                 <option value="Georgia" %%=IIF(@countryOfResidence=='Georgia', "selected", "")=%%>Georgia</option>
+                 <option value="Germany" %%=IIF(@countryOfResidence=='Germany', "selected", "")=%%>Germany</option>
+                 <option value="Ghana" %%=IIF(@countryOfResidence=='Ghana', "selected", "")=%%>Ghana</option>
+                 <option value="Great Britain" %%=IIF(@countryOfResidence=='Great Britain', "selected", "")=%%>Great Britain</option>
+                 <option value="Greece" %%=IIF(@countryOfResidence=='Greece', "selected", "")=%%>Greece</option>
+                 <option value="Greenland" %%=IIF(@countryOfResidence=='Greenland', "selected", "")=%%>Greenland</option>
+                 <option value="Grenada" %%=IIF(@countryOfResidence=='Grenada', "selected", "")=%%>Grenada</option>
+                 <option value="Guatemala" %%=IIF(@countryOfResidence=='Guatemala', "selected", "")=%%>Guatemala</option>
+                 <option value="Guinea" %%=IIF(@countryOfResidence=='Guinea', "selected", "")=%%>Guinea</option>
+                 <option value="Haiti" %%=IIF(@countryOfResidence=='Haiti', "selected", "")=%%>Haiti</option>
+                 <option value="Honduras" %%=IIF(@countryOfResidence=='Honduras', "selected", "")=%%>Honduras</option>
+                 <option value="Hong Kong" %%=IIF(@countryOfResidence=='Hong Kong', "selected", "")=%%>Hong Kong</option>
+                 <option value="Hungary" %%=IIF(@countryOfResidence=='Hungary', "selected", "")=%%>Hungary</option>
+                 <option value="Iceland" %%=IIF(@countryOfResidence=='Iceland', "selected", "")=%%>Iceland</option>
+                 <option value="Indonesia" %%=IIF(@countryOfResidence=='Indonesia', "selected", "")=%%>Indonesia</option>
+                 <option value="India" %%=IIF(@countryOfResidence=='India', "selected", "")=%%>India</option>
+                 <option value="Iran" %%=IIF(@countryOfResidence=='Iran', "selected", "")=%%>Iran</option>
+                 <option value="Iraq" %%=IIF(@countryOfResidence=='Iraq', "selected", "")=%%>Iraq</option>
+                 <option value="Ireland" %%=IIF(@countryOfResidence=='Ireland', "selected", "")=%%>Ireland</option>
+                 <option value="Israel" %%=IIF(@countryOfResidence=='Israel', "selected", "")=%%>Israel</option>
+                 <option value="Italy" %%=IIF(@countryOfResidence=='Italy', "selected", "")=%%>Italy</option>
+                 <option value="Jamaica" %%=IIF(@countryOfResidence=='Jamaica', "selected", "")=%%>Jamaica</option>
+                 <option value="Japan" %%=IIF(@countryOfResidence=='Japan', "selected", "")=%%>Japan</option>
+                 <option value="Jordan" %%=IIF(@countryOfResidence=='Jordan', "selected", "")=%%>Jordan</option>
+                 <option value="Kazakhstan" %%=IIF(@countryOfResidence=='Kazakhstan', "selected", "")=%%>Kazakhstan</option>
+                 <option value="Kenya" %%=IIF(@countryOfResidence=='Kenya', "selected", "")=%%>Kenya</option>
+                 <option value="Korea North" %%=IIF(@countryOfResidence=='Korea North', "selected", "")=%%>Korea North</option>
+                 <option value="Korea Sout" %%=IIF(@countryOfResidence=='Korea South', "selected", "")=%%>Korea South</option>
+                 <option value="Kuwait" %%=IIF(@countryOfResidence=='Kuwait', "selected", "")=%%>Kuwait</option>
+                 <option value="Kyrgyzstan" %%=IIF(@countryOfResidence=='Kyrgyzstan', "selected", "")=%%>Kyrgyzstan</option>
+                 <option value="Latvia" %%=IIF(@countryOfResidence=='Latvia', "selected", "")=%%>Latvia</option>
+                 <option value="Lebanon" %%=IIF(@countryOfResidence=='Lebanon', "selected", "")=%%>Lebanon</option>
+                 <option value="Libya" %%=IIF(@countryOfResidence=='Libya', "selected", "")=%%>Libya</option>
+                 <option value="Liechtenstein" %%=IIF(@countryOfResidence=='Liechtenstein', "selected", "")=%%>Liechtenstein</option>
+                 <option value="Lithuania" %%=IIF(@countryOfResidence=='Lithuania', "selected", "")=%%>Lithuania</option>
+                 <option value="Luxembourg" %%=IIF(@countryOfResidence=='Luxembourg', "selected", "")=%%>Luxembourg</option>
+                 <option value="Macedonia" %%=IIF(@countryOfResidence=='Macedonia', "selected", "")=%%>Macedonia</option>
+                 <option value="Madagascar" %%=IIF(@countryOfResidence=='Madagascar', "selected", "")=%%>Madagascar</option>
+                 <option value="Malaysia" %%=IIF(@countryOfResidence=='Malaysia', "selected", "")=%%>Malaysia</option>
+                 <option value="Malawi" %%=IIF(@countryOfResidence=='Malawi', "selected", "")=%%>Malawi</option>
+                 <option value="Maldives" %%=IIF(@countryOfResidence=='Maldives', "selected", "")=%%>Maldives</option>
+                 <option value="Mali" %%=IIF(@countryOfResidence=='Mali', "selected", "")=%%>Mali</option>
+                 <option value="Malta" %%=IIF(@countryOfResidence=='Malta', "selected", "")=%%>Malta</option>
+                 <option value="Mauritius" %%=IIF(@countryOfResidence=='Mauritius', "selected", "")=%%>Mauritius</option>
+                 <option value="Mexico" %%=IIF(@countryOfResidence=='Mexico', "selected", "")=%%>Mexico</option>
+                 <option value="Moldova" %%=IIF(@countryOfResidence=='Moldova', "selected", "")=%%>Moldova</option>
+                 <option value="Monaco" %%=IIF(@countryOfResidence=='Monaco', "selected", "")=%%>Monaco</option>
+                 <option value="Mongolia" %%=IIF(@countryOfResidence=='Mongolia', "selected", "")=%%>Mongolia</option>
+                 <option value="Montenegro" %%=IIF(@countryOfResidence=='Montenegro', "selected", "")=%%>Montenegro</option>
+                 <option value="Morocco" %%=IIF(@countryOfResidence=='Morocco', "selected", "")=%%>Morocco</option>
+                 <option value="Mozambique" %%=IIF(@countryOfResidence=='Mozambique', "selected", "")=%%>Mozambique</option>
+                 <option value="Myanmar" %%=IIF(@countryOfResidence=='Myanmar', "selected", "")=%%>Myanmar</option>
+                 <option value="Nambia" %%=IIF(@countryOfResidence=='Nambia', "selected", "")=%%>Nambia</option>
+                 <option value="Netherlands" %%=IIF(@countryOfResidence=='Netherlands', "selected", "")=%%>Netherlands</option>
+                 <option value="New Zealand" %%=IIF(@countryOfResidence=='New Zealand', "selected", "")=%%>New Zealand</option>
+                 <option value="Nicaragua" %%=IIF(@countryOfResidence=='Nicaragua', "selected", "")=%%>Nicaragua</option>
+                 <option value="Niger" %%=IIF(@countryOfResidence=='Niger', "selected", "")=%%>Niger</option>
+                 <option value="Nigeria" %%=IIF(@countryOfResidence=='Nigeria', "selected", "")=%%>Nigeria</option>
+                 <option value="Norway" %%=IIF(@countryOfResidence=='Norway', "selected", "")=%%>Norway</option>
+                 <option value="Oman" %%=IIF(@countryOfResidence=='Oman', "selected", "")=%%>Oman</option>
+                 <option value="Pakistan" %%=IIF(@countryOfResidence=='Pakistan', "selected", "")=%%>Pakistan</option>
+                 <option value="Palestine" %%=IIF(@countryOfResidence=='Palestine', "selected", "")=%%>Palestine</option>
+                 <option value="Panama" %%=IIF(@countryOfResidence=='Panama', "selected", "")=%%>Panama</option>
+                 <option value="Papua New Guinea" %%=IIF(@countryOfResidence=='Papua New Guinea', "selected", "")=%%>Papua New Guinea</option>
+                 <option value="Paraguay" %%=IIF(@countryOfResidence=='Paraguay', "selected", "")=%%>Paraguay</option>
+                 <option value="Peru" %%=IIF(@countryOfResidence=='Peru', "selected", "")=%%>Peru</option>
+                 <option value="Philippines" %%=IIF(@countryOfResidence=='Philippines', "selected", "")=%%>Philippines</option>
+                 <option value="Poland" %%=IIF(@countryOfResidence=='Poland', "selected", "")=%%>Poland</option>
+                 <option value="Portugal" %%=IIF(@countryOfResidence=='Portugal', "selected", "")=%%>Portugal</option>
+                 <option value="Puerto Rico" %%=IIF(@countryOfResidence=='Puerto Rico', "selected", "")=%%>Puerto Rico</option>
+                 <option value="Qatar" %%=IIF(@countryOfResidence=='Qatar', "selected", "")=%%>Qatar</option>
+                 <option value="Romania" %%=IIF(@countryOfResidence=='Romania', "selected", "")=%%>Romania</option>
+                 <option value="Russia" %%=IIF(@countryOfResidence=='Russia', "selected", "")=%%>Russia</option>
+                 <option value="San Marino" %%=IIF(@countryOfResidence=='San Marino', "selected", "")=%%>San Marino</option>
+                 <option value="Saudi Arabia" %%=IIF(@countryOfResidence=='Saudi Arabia', "selected", "")=%%>Saudi Arabia</option>
+                 <option value="Senegal" %%=IIF(@countryOfResidence=='Senegal', "selected", "")=%%>Senegal</option>
+                 <option value="Serbia" %%=IIF(@countryOfResidence=='Serbia', "selected", "")=%%>Serbia</option>
+                 <option value="Seychelles" %%=IIF(@countryOfResidence=='Seychelles', "selected", "")=%%>Seychelles</option>
+                 <option value="Sierra Leone" %%=IIF(@countryOfResidence=='Sierra Leone', "selected", "")=%%>Sierra Leone</option>
+                 <option value="Singapore" %%=IIF(@countryOfResidence=='Singapore', "selected", "")=%%>Singapore</option>
+                 <option value="Slovakia" %%=IIF(@countryOfResidence=='Slovakia', "selected", "")=%%>Slovakia</option>
+                 <option value="Slovenia" %%=IIF(@countryOfResidence=='Slovenia', "selected", "")=%%>Slovenia</option>
+                 <option value="Somalia" %%=IIF(@countryOfResidence=='Somalia', "selected", "")=%%>Somalia</option>
+                 <option value="South Africa" %%=IIF(@countryOfResidence=='South Africa', "selected", "")=%%>South Africa</option>
+                 <option value="Spain" %%=IIF(@countryOfResidence=='Spain', "selected", "")=%%>Spain</option>
+                 <option value="Sri Lanka" %%=IIF(@countryOfResidence=='Sri Lanka', "selected", "")=%%>Sri Lanka</option>
+                 <option value="Sudan" %%=IIF(@countryOfResidence=='Sudan', "selected", "")=%%>Sudan</option>
+                 <option value="Suriname" %%=IIF(@countryOfResidence=='Suriname', "selected", "")=%%>Suriname</option>
+                 <option value="Sweden" %%=IIF(@countryOfResidence=='Sweden', "selected", "")=%%>Sweden</option>
+                 <option value="Switzerland" %%=IIF(@countryOfResidence=='Switzerland', "selected", "")=%%>Switzerland</option>
+                 <option value="Syria" %%=IIF(@countryOfResidence=='Syria', "selected", "")=%%>Syria</option>
+                 <option value="Tahiti" %%=IIF(@countryOfResidence=='Tahiti', "selected", "")=%%>Tahiti</option>
+                 <option value="Taiwan" %%=IIF(@countryOfResidence=='Taiwan', "selected", "")=%%>Taiwan</option>
+                 <option value="Tanzania" %%=IIF(@countryOfResidence=='Tanzania', "selected", "")=%%>Tanzania</option>
+                 <option value="Thailand" %%=IIF(@countryOfResidence=='Thailand', "selected", "")=%%>Thailand</option>
+                 <option value="Togo" %%=IIF(@countryOfResidence=='Togo', "selected", "")=%%>Togo</option>
+                 <option value="Tonga" %%=IIF(@countryOfResidence=='Tonga', "selected", "")=%%>Tonga</option>
+                 <option value="Tunisia" %%=IIF(@countryOfResidence=='Tunisia', "selected", "")=%%>Tunisia</option>
+                 <option value="Turkey" %%=IIF(@countryOfResidence=='Turkey', "selected", "")=%%>Turkey</option>
+                 <option value="Turkmenistan" %%=IIF(@countryOfResidence=='Turkmenistan', "selected", "")=%%>Turkmenistan</option>
+                 <option value="Uganda" %%=IIF(@countryOfResidence=='Uganda', "selected", "")=%%>Uganda</option>
+                 <option value="United Kingdom" %%=IIF(@countryOfResidence=='United Kingdom', "selected", "")=%%>United Kingdom</option>
+                 <option value="Ukraine" %%=IIF(@countryOfResidence=='Ukraine', "selected", "")=%%>Ukraine</option>
+                 <option value="United States of America" %%=IIF(@countryOfResidence=='United States of America', "selected", "")=%%>United States of America</option>
+                 <option value="Uruguay" %%=IIF(@countryOfResidence=='Uruguay', "selected", "")=%%>Uruguay</option>
+                 <option value="Uzbekistan" %%=IIF(@countryOfResidence=='Uzbekistan', "selected", "")=%%>Uzbekistan</option>
+                 <option value="Vanuatu" %%=IIF(@countryOfResidence=='Vanuatu', "selected", "")=%%>Vanuatu</option>
+                 <option value="Vatican City State" %%=IIF(@countryOfResidence=='Vatican City State', "selected", "")=%%>Vatican City State</option>
+                 <option value="Venezuela" %%=IIF(@countryOfResidence=='Venezuela', "selected", "")=%%>Venezuela</option>
+                 <option value="Vietnam" %%=IIF(@countryOfResidence=='Vietnam', "selected", "")=%%>Vietnam</option>
+                 <option value="Yemen" %%=IIF(@countryOfResidence=='Yemen', "selected", "")=%%>Yemen</option>
+                 <option value="Zaire" %%=IIF(@countryOfResidence=='Zaire', "selected", "")=%%>Zaire</option>
+                 <option value="Zambia" %%=IIF(@countryOfResidence=='Zambia', "selected", "")=%%>Zambia</option>
+                 <option value="Zimbabwe" %%=IIF(@countryOfResidence=='Zimbabwe', "selected", "")=%%>Zimbabwe</option>
+               </select>
+            </td>
+            <td width="33%">
+              <label class="label" for="jobTitle">Job Title</label>
+              <select id="jobTitle" onchange=jobTitleValue() class="custom-select" >
+                <option value=" " selected>Select Job Title</option>
+                <option value="Accountant" %%=IIF(@designation=='Accountant', "selected", "")=%%>Accountant</option>
+                <option value="Auditor" %%=IIF(@designation=='Auditor', "selected", "")=%%>Auditor</option>
+                <option value="Banker" %%=IIF(@designation=='Banker', "selected", "")=%%>Banker</option>
+                <option value="Broker" %%=IIF(@designation=='Broker', "selected", "")=%%>Broker</option>
+                <option value="Business Consultant" %%=IIF(@designation=='Business Consultant', "selected", "")=%%>Business Consultant</option>
+                <option value="Celebrity" %%=IIF(@designation=='Celebrity', "selected", "")=%%>Celebrity</option>
+                <option value="CEO" %%=IIF(@designation=='CEO', "selected", "")=%%>CEO</option>
+                <option value="Chairman" %%=IIF(@designation=='Chairman', "selected", "")=%%>Chairman</option>
+                <option value="Chief Operation Officer" %%=IIF(@designation=='Chief Operation Officer', "selected", "")=%%>Chief Operation Officer</option>
+                <option value="Chief Financial Officer" %%=IIF(@designation=='Chief Financial Officer', "selected", "")=%%>Chief Financial Officer</option>
+                <option value="Chief Technology Officer" %%=IIF(@designation=='Chief Technology Officer', "selected", "")=%%>Chief Technology Officer</option>
+                <option value="Director" %%=IIF(@designation=='Director', "selected", "")=%%>Director</option>
+                <option value="Diplomat" %%=IIF(@designation=='Diplomat', "selected", "")=%%>Diplomat</option>
+                <option value="Doctor" %%=IIF(@designation=='Doctor', "selected", "")=%%>Doctor</option>
+                <option value="Engineer" %%=IIF(@designation=='Engineer', "selected", "")=%%>Engineer</option>
+                <option value="Executive Vice President" %%=IIF(@designation=='Executive Vice President', "selected", "")=%%>Executive Vice President</option>
+                <option value="Finance Executive" %%=IIF(@designation=='Finance Executive', "selected", "")=%%>Finance Executive</option>
+                <option value="Finance Manager" %%=IIF(@designation=='Finance Manager', "selected", "")=%%>Finance Manager</option>
+                <option value="Finance Director" %%=IIF(@designation=='Finance Director', "selected", "")=%%>Finance Director</option>
+                <option value="Graphic Designer" %%=IIF(@designation=='Graphic Designer', "selected", "")=%%>Graphic Designer</option>
+                <option value="HR Executive" %%=IIF(@designation=='HR Executive', "selected", "")=%%>HR Executive</option>
+                <option value="HR Manager" %%=IIF(@designation=='HR Manager', "selected", "")=%%>HR Manager</option>
+                <option value="HR Director" %%=IIF(@designation=='HR Director', "selected", "")=%%>HR Director</option>
+                <option value="IT Executive" %%=IIF(@designation=='IT Executive', "selected", "")=%%>IT Executive</option>
+                <option value="IT Manager" %%=IIF(@designation=='IT Manager', "selected", "")=%%>IT Manager</option>
+                <option value="IT Director" %%=IIF(@designation=='IT Director', "selected", "")=%%>IT Director</option>
+                <option value="Lawyer / Advocate" %%=IIF(@designation=='Lawyer / Advocate', "selected", "")=%%>Lawyer / Advocate</option>
+                <option value="Legal Consultant / Advisor" %%=IIF(@designation=='Legal Consultant / Advisor', "selected", "")=%%>Legal Consultant / Advisor</option>
+                <option value="Manager" %%=IIF(@designation=='Manager', "selected", "")=%%>Manager</option>
+                <option value="Marketing Executive" %%=IIF(@designation=='Marketing Executive', "selected", "")=%%>Marketing Executive</option>
+                <option value="Marketing Manager" %%=IIF(@designation=='Marketing Manager', "selected", "")=%%>Marketing Manager</option>
+                <option value="Marketing Director" %%=IIF(@designation=='Marketing Director', "selected", "")=%%>Marketing Director</option>
+                <option value="Painter" %%=IIF(@designation=='Painter', "selected", "")=%%>Painter</option>
+                <option value="Partner" %%=IIF(@designation=='Partner', "selected", "")=%%>Partner</option>
+                <option value="Pharmacist" %%=IIF(@designation=='Pharmacist', "selected", "")=%%>Pharmacist</option>
+                <option value="Pilot" %%=IIF(@designation=='Pilot', "selected", "")=%%>Pilot</option>
+                <option value="Police Officer" %%=IIF(@designation=='Police Officer', "selected", "")=%%>Police Officer</option>
+                <option value="Public Relations Officer" %%=IIF(@designation=='Public Relations Officer', "selected", "")=%%>Public Relations Officer</option>
+                <option value="Sales Consultant" %%=IIF(@designation=='Sales Consultant', "selected", "")=%%>Sales Consultant</option>
+                <option value="Sales Manager" %%=IIF(@designation=='Sales Manager', "selected", "")=%%>Sales Manager</option>
+                <option value="Social Media Influencer" %%=IIF(@designation=='Social Media Influencer', "selected", "")=%%>Social Media Influencer</option>
+                <option value="Teacher" %%=IIF(@designation=='Teacher', "selected", "")=%%>Teacher</option>
+                <option value="Therapist" %%=IIF(@designation=='Therapist', "selected", "")=%%>Therapist</option>
+                <option value="Vice President" %%=IIF(@designation=='Vice President', "selected", "")=%%>Vice President</option>
+                <option value="Other" %%=IIF(@designation=='Other', "selected", "")=%%>Other</option>
+              </select>
+            </td>
+            <td width="33%">
+              <label class="label" for="language">Language Preference<sup>*</sup></label>
+              <select id="language" required class="custom-select">
+                <option value="" selected>Select Language</option>
+                <option value="English" %%=IIF(@languagePreference=='English', "selected", "")=%%>English</option>
+                <option value="Arabic" %%=IIF(@languagePreference=='Arabic', "selected", "")=%%>Arabic</option>
+                <option value="Russian" %%=IIF(@languagePreference=='Russian', "selected", "")=%%>Russian</option>
+                <option value="Mandarin" %%=IIF(@languagePreference=='Mandarin', "selected", "")=%%>Mandarin</option>
+                <option value="French" %%=IIF(@languagePreference=='French', "selected", "")=%%>French</option>
+                <option value="Deutsch" %%=IIF(@languagePreference=='Deutsch', "selected", "")=%%>Deutsch</option>
+                <option value="Spanish" %%=IIF(@languagePreference=='Spanish', "selected", "")=%%>Spanish</option>
+              </select>
+            </td>
+          </tr>
+          
+        </table>
+        <Span id="jobTitleOtherValue" style="%%=IIF(@designation=='Other', "display:block;", "display:none;")=%%">
+        <table class="form-table" >
+          <tr>
+            <td width="100%">
+              <label class="label" for="jobTitleOther" >Job Title (Other)</label>
+              <input type="text" id="jobTitleOther" value="%%=v(@designationOther)=%%">
+            </td>
+           
+          </tr>
+        </table>
+        </Span>
+         
+        <table class="form-table">
+          <tr>
+            <td width="50%">
+              <label class="label" for="familyMembers">Number of Family Members</label>
+              <select id="familyMembers" class="custom-select">
+                <option value="1" %%=IIF(@numberOfFamilyMembers=='1', "selected", "")=%%>1</option>
+                <option value="2" %%=IIF(@numberOfFamilyMembers=='2', "selected", "")=%%>2</option>
+                <option value="3" %%=IIF(@numberOfFamilyMembers=='3', "selected", "")=%%>3</option>
+                <option value="4" %%=IIF(@numberOfFamilyMembers=='4', "selected", "")=%%>4</option>
+                <option value="5" %%=IIF(@numberOfFamilyMembers=='5', "selected", "")=%%>5</option>
+                <option value="6" %%=IIF(@numberOfFamilyMembers=='6', "selected", "")=%%>6</option>
+                <option value="7" %%=IIF(@numberOfFamilyMembers=='7', "selected", "")=%%>7</option>
+                <option value="8" %%=IIF(@numberOfFamilyMembers=='8', "selected", "")=%%>8</option>
+                <option value="9" %%=IIF(@numberOfFamilyMembers=='9', "selected", "")=%%>9</option>
+                <option value="10" %%=IIF(@numberOfFamilyMembers=='10', "selected", "")=%%>10</option>
+              </select>
+            </td>
+            <td width="50%">
+              <label class="label" for="kids">Number of kids</label>
+              <select id="kids" class="custom-select">
+                <option value="0" %%=IIF(@numberOfKids=='0', "selected", "")=%%>0</option>
+                <option value="1" %%=IIF(@numberOfKids=='1', "selected", "")=%%>1</option>
+                <option value="2" %%=IIF(@numberOfKids=='2', "selected", "")=%%>2</option>
+                <option value="3" %%=IIF(@numberOfKids=='3', "selected", "")=%%>3</option>
+                <option value="4" %%=IIF(@numberOfKids=='4', "selected", "")=%%>4</option>
+                <option value="5" %%=IIF(@numberOfKids=='5', "selected", "")=%%>5</option>
+                <option value="6" %%=IIF(@numberOfKids=='6', "selected", "")=%%>6</option>
+                <option value="7" %%=IIF(@numberOfKids=='7', "selected", "")=%%>7</option>
+                <option value="8" %%=IIF(@numberOfKids=='8', "selected", "")=%%>8</option>
+                <option value="9" %%=IIF(@numberOfKids=='9', "selected", "")=%%>9</option>
+                <option value="10" %%=IIF(@numberOfKids=='10', "selected", "")=%%>10</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- Preferences Section -->
+      <div class="section">
+        <h2>Preferences
+        </h2>
+        <table class="form-table">
+          <tr>
+            <td>
+              <label class="label" for="budget">What is your preferred budget range?</label>
+              <select id="budget" class="custom-select">
+                <option value=" " selected>Select budget range</option>
+                <option value="AED 0 - 5M" %%=IIF(@customerBudget=='AED 0 - 5M', "selected", "")=%%>1M to 5M</option>
+                <option value="AED 5 - 10M" %%=IIF(@customerBudget=='AED 5 - 10M', "selected", "")=%%>5M to 10M</option>
+                <option value="AED 10 - 15M" %%=IIF(@customerBudget=='AED 10 - 15M', "selected", "")=%%>10M to 15M</option>
+                <option value="AED 15 - 20M" %%=IIF(@customerBudget=='AED 15 - 20M', "selected", "")=%%>15M to 20M</option>
+                <option value="AED 20M+" %%=IIF(@customerBudget=='AED 20M+', "selected", "")=%%>20M+</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+        <table class="form-table" Style="margin-bottom: 0px !important;">
+          <tr>
+            <td Style="padding:0px 5px 0px 5px !important;">
+              <label class="label">What is your purpose of your purchase?</label>
+            </td>
+          </tr>
+        </table>
+        <table class="motivation-table">
+          <tr>
+            <td width="33%">
+              <div class="motivation-card %%=IIF(@investment == 'Living', 'selected', '')=%%" data-value="Living">
+                <div class="icon">
+                  <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/6e017faa-3d03-4908-a4aa-18e65d716835.png" style="height: 50px; width: 60px;" alt="Living" >
+                </div>
+                <div>Living
+                </div>
+              </div>
+            </td>
+            <td width="33%">
+              <div class="motivation-card %%=IIF(@investment == 'Investment', 'selected', '')=%%" data-value="Investment">
+                <div class="icon">
+                  <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/0e31c9f4-aaa3-40cd-9358-310853484190.png" style="height: 50px; width: 60px;" alt="Investment" >
+                </div>
+                <div>Investment
+                </div>
+              </div>
+            </td>
+            <td width="33%">
+              <div class="motivation-card %%=IIF(@investment == 'Both', 'selected', '')=%%" data-value="Both">
+                <div class="icon">
+                  <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/7ca0bdcd-c50e-4689-876c-d90aa9cac0ec.png" style="height: 50px; width: 60px;" alt="Both" >
+                </div>
+                <div>Both
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <input type="hidden" id="purposeOfPurchase" name="purposeOfPurchase">
+        <table class="form-table" Style="margin-bottom: 0px !important;">
+          <tr>
+            <td Style="padding:0px 5px 0px 5px !important;">
+              <label class="label">We'd love to learn more about you, what are you passionate about?</label>
+            </td>
+          </tr>
+        </table>
+        <table class="interests-table">
+          <tr>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="surfing" %%=v(@surfing)=%%>
+                <label for="surfing" Style="font-size: 13px;">Surfing</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="cycling" %%=v(@cycling)=%%>
+                <label for="cycling" Style="font-size: 13px;">Cycling</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="skating" %%=v(@skating)=%%>
+                <label for="skating" Style="font-size: 13px;">Skating</label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="mountain-biking" %%=v(@mountainBiking)=%%>
+                <label for="mountain-biking" Style="font-size: 13px;">Mountain biking</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="fnb" %%=v(@fB)=%%>
+                <label for="fnb" Style="font-size: 13px;">F&B</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="gym" %%=v(@gym)=%%>
+                <label for="gym" Style="font-size: 13px;">Gym</label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="kids-activities" %%=v(@kidsActivities)=%%>
+                <label for="kids-activities" Style="font-size: 13px;">Kids Activities</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="family-activities" %%=v(@familyActivities)=%%>
+                <label for="family-activities" Style="font-size: 13px;">Family Activities</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="health-beauty" %%=v(@healthBeauty)=%%>
+                <label for="health-beauty" Style="font-size: 13px;">Health & Beauty</label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="spa-wellness" %%=v(@spaWellness)=%%>
+                <label for="spa-wellness" Style="font-size: 13px;">Spa & Wellness</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="shopping" %%=v(@shopping)=%%>
+                <label for="shopping" Style="font-size: 13px;">Shopping</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="art-exhibitions" %%=v(@artExhibitions)=%%>
+                <label for="art-exhibitions" Style="font-size: 13px;">Art & Exhibitions</label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="beaches-beach-club" %%=v(@beaches)=%%>
+                <label for="beaches-beach-club" Style="font-size: 13px;">Beaches & Beach Club</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="water-sports" %%=v(@waterSports)=%%>
+                <label for="water-sports" Style="font-size: 13px;">Water Sports</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="321-sports" %%=v(@sports)=%%>
+                <label for="321-sports" Style="font-size: 13px;">321 Sports</label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="yachting" %%=v(@yachting)=%%>
+                <label for="yachting" Style="font-size: 13px;">Yachting</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="circuit-x" %%=v(@circuitX)=%%>
+                <label for="circuit-x" Style="font-size: 13px;">Circuit X</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="marina" %%=v(@marina)=%%>
+                <label for="marina" Style="font-size: 13px;">Marina</label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            
+            <td class="interest-cell">
+              <div class="interest-item">
+                <input type="checkbox" id="Bab Al Nojoum Resorts & Camps" %%=v(@babAlNojoumResorts)=%%>
+                <label for="Bab Al Nojoum Resorts & Camps" Style="font-size: 13px;">Bab Al Nojoum Resorts & Camps</label>
+              </div>
+            </td>
+            <td class="interest-cell">
+            </td>
+            <td class="interest-cell">
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- Communication Preferences Section -->
+      <div class="communicationSection">
+        <h2>Communication Preferences
+        </h2>
+        <table class="comm-table">
+          <tr>
+            <td class="comm-cell" Style="height:100%;">
+              <div class="comm-card" Style="height:101px;">
+                <div class="comm-title">
+                  <input type="checkbox" id="events" %%=IIF(@events == "Active", "checked", "")=%%>
+                  <label for="events" Style="font-size: 14px;font-weight: bold;">Events</label>
+                </div>
+                <div class="comm-desc">Get updates about our latest events
+                </div>
+              </div>
+            </td>
+            <td class="comm-cell" Style="height:100%;">
+              <div class="comm-card" Style="height:101px;">
+                <div class="comm-title">
+                  <input type="checkbox" id="newsletters" %%=IIF(@newsletters == "Active", "checked", "")=%%>
+                  <label for="newsletters" Style="font-size: 14px;font-weight: bold;">Newsletters</label>
+                </div>
+                <div class="comm-desc">Receive our monthly newsletters
+                </div>
+              </div>
+            </td>
+            <td class="comm-cell" Style="height:100%;"> 
+              <div class="comm-card" Style="height:101px;">
+                <div class="comm-title">
+                  <input type="checkbox" id="offers" %%=IIF(@offers == "Active", "checked", "")=%%>
+                  <label for="offers" Style="font-size: 14px;font-weight: bold;">Offers</label>
+                </div>
+                <div class="comm-desc">Special Offers and Promotions
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="comm-cell" Style="height:100%;">
+              <div class="comm-card" Style="height:101px;">
+                <div class="comm-title">
+                  <input type="checkbox" id="destinations" %%=IIF(@destinations == "Active", "checked", "")=%%>
+                  <label for="destinations" Style="font-size: 14px;font-weight: bold;">Destinations</label>
+                </div>
+                <div class="comm-desc">Updates about new destinations
+                </div>
+              </div>
+            </td>
+            <td class="comm-cell" Style="height:100%;">
+              <div class="comm-card" Style="height:101px;">
+                <div class="comm-title">
+                  <input type="checkbox" id="real-estate" %%=IIF(@realEstate == "Active", "checked", "")=%%>
+                  <label for="real-estate" Style="font-size: 14px;font-weight: bold;">Real Estate</label>
+                </div>
+                <div class="comm-desc">Real estate opportunities
+                </div>
+              </div>
+            </td>
+            <td class="comm-cell">
+            </td>
+          </tr>
+        </table>
+        <div class="unsubscribe">
+          <input type="checkbox" id="unsubscribe-all" %%=IIF(@emailSubscriptionStatus =='No' ,'checked', "" )=%%>
+          <label for="unsubscribe-all" Style="font-size: 14px;">Unsubscribe from all marketing communications</label>
+        </div>
+        <input name="crmId" type="hidden" id="crmId" value="%%=v(@crmId)=%%">
+        <input name="opportunityId" type="hidden" id="opportunityId" value="%%=v(@opportunityId)=%%">
+        <input name="accountId" type="hidden" id="accountId" value="%%=v(@accId)=%%">
+        <div class="save-btn">
+          <button class="save" id="save-changes">Save Changes</button>
+        </div>
+      </div>
+      
+      
+    </div>
+    <div class="footerContainer">
+      <!-- Footer -->
+      <div class="footer">
+        <table class="footer-table">
+          <tr>
+            <td class="menu-links">
+              <table class="footer-links">
+                <tr>
+                  <td><a href="https://www.modon.com/about-modon" target="_blank">About Us</a>
+                  </td>
+                  <td><a href="https://www.modon.com/about-modon/procurement" target="_blank">Procurement</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="https://www.modon.com/real-estate" target="_blank">Real Estate</a>
+                  </td>
+                  <td><a href="https://www.modon.com/about-modon/careers" target="_blank">Careers</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="https://www.modon.com/destinations" target="_blank">Destinations</a>
+                  </td>
+                  <td><a href="https://www.modon.com/contact-us" target="_blank">Contact Us</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="https://www.modon.com/real-estate" target="_blank">Our Projects</a>
+                  </td>
+                  <td><a href="https://www.modon.com/about-modon/whistleblowing/" target="_blank">Whistleblowing</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="https://www.modon.com/about-modon/media-centre" target="_blank">Media Centre</a>
+                  </td>
+                  <td>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td class="social-icons">
+              <a href="https://www.linkedin.com/company/modon/" target="_blank" aria-label="LinkedIn">
+                <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/e43a539d-e58e-440c-9d01-19019aa41a32.png" alt="LinkedIn" class="social-icon"></a>
+              <a href="https://www.instagram.com/modonproperties/" target="_blank" aria-label="Instagram">
+                <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/d88275a6-518a-433f-a95c-27471176e7c6.png" alt="Instagram" class="social-icon"></a>
+              <a href="https://x.com/ModonProperties" target="_blank" aria-label="Twitter">
+                <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/79c5c4fb-e591-46c9-b9e0-ee993a19b997.png" alt="Twitter" class="social-icon"></a>
+              <a href="https://www.facebook.com/modonproperties" target="_blank" aria-label="Facebook">
+                <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/d34bd2e8-9f39-4218-87c8-1f203964c162.png" alt="Facebook" class="social-icon"></a>
+              <a href="https://www.youtube.com/channel/UCkF7MWvWZsty6udHa-ykATQ" target="_blank" aria-label="YouTube">
+                <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/5cd9b105-6428-4b0b-94f7-2f2597f0be8d.png" alt="YouTube" class="social-icon"></a>
+              <div class="terms" style="text-align: right; margin-top: 20px;">
+                <span><a href="https://www.modon.com/terms-and-conditions" target="_blank">Terms & Conditions</a></span>
+              </div>
+              <div class="terms" style="text-align: right;">
+                <span><a href="https://www.modon.com/privacy-policy" target="_blank">Privacy Policy</a></span>
+              </div>
+              <div class="terms" style="text-align: right;">@ Modon 2025 – All rights reserved
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div class="footer-logo">
+          <a href="https://www.modon.com/home" target="_blank">
+            <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/ce42fab2-ff1a-46ef-9657-93c8a0301907.jpeg" alt="MODON"></a>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!--script src="https://cloud.explore.dubaiparksandresorts.com/daterangepicker.js_DPR_Prod"></script-->
+  <script>
+
+</script>
+  <script>
+      function jobTitleValue(){
+var jobTitleValue = document.getElementById("jobTitle").value;
+if( jobTitleValue == 'Other'){
+console.log('jobTitle changes()',jobTitleValue);
+document.getElementById('jobTitleOtherValue').style.display = "block";
+}
+        else{
+          console.log('jobTitle changesssssss()',jobTitleValue);
+document.getElementById('jobTitleOtherValue').style.display = "none";
+          var jobTitleOtherInput = document.getElementById("jobTitleOther");
+          jobTitleOtherInput.value="";
+        }
+    }
+    /*$(this).daterangepicker({
+        opens: "top",
+        maxDate: moment(),
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            "autoUpdateInput": false,
+            locale: {
+                format: 'DD/MM/YYYY'
+            },
+        }); // Reinitialize daterangepicker for all fields with 'daterange' class
+    });*/
+  </script>
+  <script>
+    $("#save-changes").click(function(e) {
+      
+      console.log('Inside save changes()')
+      var crmId = document.getElementById('crmId').value;
+      var opportunityId = document.getElementById('opportunityId').value;
+      var accountId = document.getElementById('accountId').value;
+      var title = document.getElementById('title').value;
+      var firstName = document.getElementById('firstName').value;
+      var lastName = document.getElementById('lastName').value;
+      var email = document.getElementById('email').value;
+      var phone = document.getElementById('phone').value;
+      var birthday = document.getElementById('birthday').value;
+      var country = document.getElementById('country').value;
+      var jobTitle = document.getElementById('jobTitle').value;
+      /*var jobTitleOther = document.getElementById('jobTitleOther').value;*/
+      //var jobTitleOtherSection = document.getElementById("jobTitleOtherValue");
+      
+      var jobTitleOtherInput = document.getElementById("jobTitleOther");
+      
+      console.log("jobTitleOtherInput", jobTitleOtherInput);
+      if (jobTitleOtherInput) {
+        var jobTitleOtherValue = jobTitleOtherInput.value;
+        console.log("Job Title (Other):", jobTitleOtherValue);
+      } else {
+        console.log("Job Title Other input not found.");
+      }
+      var language = document.getElementById('language').value;
+      var familyMembers = document.getElementById('familyMembers').value;
+      var kids = document.getElementById('kids').value;
+      var budget = document.getElementById('budget').value;
+      var surfing = document.getElementById('surfing');
+      var cycling = document.getElementById('cycling');
+      var skating = document.getElementById('skating');
+      var mountainbiking = document.getElementById('mountain-biking');
+      var fnb = document.getElementById('fnb');
+      var gym = document.getElementById('gym');
+      var kidsActivities = document.getElementById('kids-activities');
+      var familyActivities = document.getElementById('family-activities');
+      var healthBeauty = document.getElementById('health-beauty');
+      var spaWellness = document.getElementById('spa-wellness');
+      var shopping = document.getElementById('shopping');
+      var artExhibitions = document.getElementById('art-exhibitions');
+      var beachesClub = document.getElementById('beaches-beach-club');
+      var waterSports = document.getElementById('water-sports');
+      var sports = document.getElementById('321-sports');
+      var yachting = document.getElementById('yachting');
+      var circuitX = document.getElementById('circuit-x');
+      var marina = document.getElementById('marina');
+      var babResortsCamps = document.getElementById('Bab Al Nojoum Resorts & Camps');
+      var events = document.getElementById('events');
+      var newsletters = document.getElementById('newsletters');
+      var offers = document.getElementById('offers');
+      var destinations = document.getElementById('destinations');
+      var realEstate = document.getElementById('real-estate');
+      var unsubscribeAll = document.getElementById('unsubscribe-all');
+      var purposeOfPurchase = document.getElementById('purposeOfPurchase').value;
+      console.log('jobTitleOther:', jobTitleOther);
+      console.log('unsubscribeAll:', unsubscribeAll);
+      console.log('unsubscribeAll checked:', unsubscribeAll.checked);
+      var dataToSend = {
+        crmId: crmId,
+        opportunityId: opportunityId,
+        accountId: accountId,
+        title: title,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        birthday: birthday,
+        country: country,
+        jobTitle: jobTitle,
+        jobTitleOtherValue: jobTitleOtherValue,
+        language: language,
+        familyMembers: familyMembers,
+        kids: kids,
+        budget: budget,
+        surfing: surfing.checked,
+        cycling: cycling.checked,
+        skating: skating.checked,
+        mountainbiking: mountainbiking.checked,
+        fnb: fnb.checked,
+        gym: gym.checked,
+        kidsActivities: kidsActivities.checked,
+        familyActivities: familyActivities.checked,
+        healthBeauty: healthBeauty.checked,
+        spaWellness: spaWellness.checked,
+        shopping: shopping.checked,
+        artExhibitions: artExhibitions.checked,
+        beachesClub: beachesClub.checked,
+        waterSports: waterSports.checked,
+        sports: sports.checked,
+        yachting: yachting.checked,
+        circuitX: circuitX.checked,
+        marina: marina.checked,
+        babResortsCamps: babResortsCamps.checked,
+        events: events.checked,
+        newsletters: newsletters.checked,
+        offers: offers.checked,
+        destinations: destinations.checked,
+        realEstate: realEstate.checked,
+        unsubscribeAll: unsubscribeAll.checked,
+        purposeOfPurchase: purposeOfPurchase
+      };
+      
+  // Select the first visible required input/select
+  var requiredFields = document.querySelectorAll('input[required], select[required]');
+  var count="1";
+  for (let field of requiredFields) {
+    if (field.offsetParent === null) continue; // Skip hidden fields
+    if (!field.value.trim()) {
+      field.reportValidity(); // Triggers the native validation popup like your image
+      field.focus();          // Focus the field so the tooltip shows
+      return;                 // Stop further processing
+      count="2";
+    }
+  }
+
+
+      if (count=="1") {
+$.ajax({
+        url: 'https://cloud.realestate.modon.com/save-changes-qa', // Replace with your CloudPage URL
+        method: 'POST',
+        data: dataToSend,
+        success: function(response) {
+          console.log('SFMC Save Changes Code Resource called successfully.');
+          console.log('Response:', response);
+       if(unsubscribeAll.checked){
+         var link= "https://cloud.realestate.modon.com/resubscribe_page_qa?sfid="
+         var dynamicValue=btoa(crmId)
+         var finalLink= link.concat(dynamicValue)
+          window.location = finalLink;
+        }
+        else{
+          window.location = "https://cloud.realestate.modon.com/thankyou_page_qa";
+        }
+          // Handle success response here
+        }
+        ,
+        error: function(xhr, status, error) {
+          console.error('Error calling SFMC channel management Code Resource.');
+          console.error('Status:', status);
+          console.error('Error=========:', error);
+          // Handle error here
+        }
+      }
+            );    }
+    }
+                            );
+  </script>
+  <script>
+
+    /*const calendar = flatpickr("#birthday", {
+        dateFormat: "Y-m-d",
+        maxDate: "today",
+        clickOpens: false // So it doesn't open on input click
+      });
+      document.getElementById("calendarIcon").addEventListener("click", () => {
+        calendar.open();
+        // Open calendar on icon click
+      });
+      document.getElementById("birthday").addEventListener("click", () => {
+        calendar.open();
+        // Open calendar on icon click
+      });*/
+    $(document).ready(function () {
+    flatpickr("#birthday", {
+      dateFormat: "m/d/Y",
+      placeholder
+        maxDate: "today",
+      allowInput: true,
+    });
+  });
+</script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const cards = document.querySelectorAll(".motivation-card");
+
+    cards.forEach(card => {
+      card.addEventListener("click", function () {
+        // Remove 'selected' class from all
+        cards.forEach(c => c.classList.remove("selected"));
+
+        // Add 'selected' to clicked card
+        this.classList.add("selected");
+
+        // Get selected value
+        const selectedPurpose = this.getAttribute("data-value");
+        console.log("Selected purpose of purchase:", selectedPurpose);
+
+        // Optionally store in hidden field
+        document.getElementById("purposeOfPurchase").value = selectedPurpose;
+        console.log("Selected purpose of purchase: ", document.getElementById("purposeOfPurchase").value);
+      });
+    });
+  });
+</script>
+</html>

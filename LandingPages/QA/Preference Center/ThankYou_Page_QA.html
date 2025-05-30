@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>MODON - We Value Your Feedback
+    </title>
+    <style>
+      /* Base styles and reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        overflow: hidden;
+        min-height: 100vh;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        background-color: #ffffff;
+        -webkit-overflow-scrolling: touch;
+        /* For smooth scrolling on iOS */
+      }
+      /* Main container with border */
+      .page-container {
+        width: 100%;
+        border-radius: 15px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid #000000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        background-color: white;
+        height: 95vh;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      /* Main feedback section */
+      .feedback-section {
+        flex: 1;
+        background-color: #000000;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 13rem 1rem;
+      }
+      .logo {
+        margin-bottom: 3.5rem;
+        max-width: 200px;
+        min-width: 190px;
+      }
+      .tick_logo{
+        max-width: 50px;
+        min-width: 30px;
+        margin-bottom: 0.5rem;
+      }
+      /*.tick{
+      margin-bottom: 2rem;
+      }*/
+      .feedback-header {
+        text-align: center;
+        /*margin-bottom: 2rem;*/
+      }
+      .feedback-header h1 {
+        font-size: 2.3rem;
+        margin-bottom: 3rem;
+        font-weight: normal;
+      }
+      .feedback-header p {
+        font-size: 1.5rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.8rem;
+      }
+      .submit-btn {
+        width: 100%;
+        padding: 14px;
+        background-color: #000000;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      /* Footer styles */
+      footer {
+        background-color: white;
+        padding: 1.7rem 1rem 0.7rem 1rem;
+      }
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .social-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .social-heading {
+        font-size: 0.8rem;
+        color: #000000;
+        margin-bottom: 0.8rem;
+      }
+      .social-icons {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      .social-icons a {
+        color: #333;
+        font-size: 1.2rem;
+        text-decoration: none;
+      }
+      .social-handle {
+        font-size: 0.9rem;
+        color: #000000;
+        padding: 0.2rem 0 0 0;
+      }
+      .legal-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        padding: 0.2rem 0 0 0;
+      }
+      .legal-links a {
+        color: #000000;
+        text-decoration: none;
+        font-size: 0.9rem;
+      }
+      .legal-links a:hover {
+        text-decoration: underline;
+      }
+      .copyright {
+        font-size: 0.9rem;
+        color: #000000;
+      }
+      /* Social media icons */
+      .icon {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        .feedback-header h1 {
+          font-size: 2rem;
+        }
+        .feedback-header p {
+          font-size: 1rem;
+        }
+        .footer-content {
+          flex-direction: column;
+          gap: 2rem;
+        }
+        .social-section {
+          align-items: center;
+        }
+        .legal-links {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: center;
+          padding: 0.2rem 0 0 0;
+        }
+        .logo {
+          max-width: 150px;
+        }
+        .tick_logo{
+          max-width: 40px;
+          min-width: 20px;
+          margin-bottom: 0.5rem;
+        }
+      }
+      @media (max-width: 480px) {
+        .tick_logo{
+          max-width: 40px;
+          min-width: 20px;
+          margin-bottom: 0.5rem;
+        }
+        .feedback-header h1 {
+          font-size: 1.8rem;
+        }
+        .body {
+          padding: 10px;
+          height: 100%;
+        }
+        .logo {
+          max-width: 180px;
+          min-width: 160px;
+          margin-right: auto;
+          margin-left: auto;
+        }
+      }
+    </style>
+    <script runat=server>
+      Platform.Response.SetResponseHeader("Strict-Transport-Security","max-age=200");
+      Platform.Response.SetResponseHeader("X-XSS-Protection","1; mode=block");
+      Platform.Response.SetResponseHeader("X-Frame-Options","Deny");
+      Platform.Response.SetResponseHeader("X-Content-Type-Options","nosniff");
+      Platform.Response.SetResponseHeader("Referrer-Policy","strict-origin-when-cross-origin");
+      Platform.Response.SetResponseHeader("Content-Security-Policy","script-src 'self' 'unsafe-inline' https://cloud.realestate.modon.com https://ajax.googleapis.com; frame-ancestors 'none'");
+    </script>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="container">
+        <main class="feedback-section">
+          <div >
+            <a href="https://www.modon.com/home" target="_blank">
+              <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/ce42fab2-ff1a-46ef-9657-93c8a0301907.jpeg" alt="MODON" class="logo"></a>
+          </div>
+          <div >
+            <img src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/0554e1bf-f5fc-4bee-9811-3074ab101a06.png" alt="MODON" class="tick_logo">
+          </div>
+          <div class="feedback-header">
+            <h1>Thank You!
+            </h1>
+            <p>We've received your preferences and we'll 
+              <br>use them to enhance your experience.
+            </p>
+          </div>
+        </main>
+        <!--footer>
+          <div class="footer-content">
+            <div class="social-section">
+              <p class="social-heading">FOLLOW US ON SOCIAL MEDIA
+              </p>
+              <div class="social-icons">
+                <a href="https://www.linkedin.com/company/modon/" target="_blank" aria-label="LinkedIn">
+                  <img class=icon src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/11131564-e826-463d-8318-49a637c14a6d.jpg" alt="LinkedIn"></a>
+                <a href="https://www.instagram.com/modonproperties/" target="_blank" aria-label="Instagram">
+                  <img class=icon src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/74516bf2-a60a-436a-b3cb-676fc26ddcc7.jpg" alt="Instagram"></a>
+                <a href="https://x.com/ModonProperties" target="_blank" aria-label="Twitter">
+                  <img class=icon src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/5712ec78-0ac5-4403-9f4b-2e8cb71e4ba4.jpg" alt="Twitter/X"></a>
+                <a href="https://www.facebook.com/modonproperties" target="_blank" aria-label="Facebook">
+                  <img class=icon src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/4c04f4b7-7bad-49d7-a0da-ffca198458cb.jpg" alt="Facebook"></a>
+                <a href="https://www.youtube.com/channel/UCkF7MWvWZsty6udHa-ykATQ" target="_blank" aria-label="YouTube">
+                  <img class=icon src="https://image.realestate.modon.com/lib/fe2e117373640475741678/m/1/398d644a-df76-4049-8d18-8ea067e9141d.jpg" alt="YouTube"></a>
+                <a href="https://www.modon.com/real-estate" target="_blank"><p class="social-handle">@modonproperties
+                  </p></a>
+              </div>
+            </div>
+            <div class="legal-links">
+              <a href="https://www.modon.com/privacy-policy" target="_blank">Privacy Policy</a>
+              <a href="https://www.modon.com/terms-and-conditions" target="_blank">Terms & Conditions</a>
+              <p class="copyright">© 2025 Modon. All rights reserved
+              </p>
+            </div>
+          </div>
+        </footer-->
+        <div class="footer">
+          %%=ContentBlockByID("51872")=%%
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

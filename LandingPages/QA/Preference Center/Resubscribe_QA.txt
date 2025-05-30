@@ -1,0 +1,102 @@
+<script runat="server">
+  Platform.Load("core","1.1");
+  Write("inside222")
+  try {
+    var crmId = Request.GetQueryStringParameter("crmId");
+    if (crmId.substring(0, 3)=='00Q'){
+      var leadFieldArr = [];
+      leadFieldArr.push('EmailSubscriptionstatus__c');
+      leadFieldArr.push("Yes");
+      var updateSFObject = "";
+                  updateSFObject += "\%\%[";
+                  updateSFObject += "set @SFUpdateResults = UpdateSingleSalesforceObject('Lead',";
+                  updateSFObject += "'" + crmId + "','"+  leadFieldArr.join("','") + "'";
+                  updateSFObject += ") ";
+                  updateSFObject += "output(concat(@SFUpdateResults)) ";
+                  updateSFObject += "]\%\%";
+
+      var results = Platform.Function.TreatAsContent(updateSFObject);
+      Write("final result - " + Stringify(results));
+    }
+    var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": {
+                                       "ID": '63',
+                                       "Action": "Update"
+                                     },
+                                     "Status": "Active"
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>");
+                          var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": [{
+                                    ID: 818,
+                                    Status: "Active"
+                                }]
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>");
+                           var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": [{
+                                    ID: 819,
+                                    Status: "Active"
+                                }]
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>"); 
+                          var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": [{
+                                    ID: 820,
+                                    Status: "Active"
+                                }]
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>");
+                           var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": [{
+                                    ID: 821,
+                                    Status: "Active"
+                                }]
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>"); 
+                        var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": [{
+                                    ID: 822,
+                                    Status: "Active"
+                                }]
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>"); 
+     unsubscribeAll='Yes'
+      eventDEvalue='Yes'
+      realEstateDEvalue='Yes'
+      destinationsDEvalue='Yes'
+      offersDEvalue='Yes'
+      newslettersDEvalue='Yes'
+    
+    var rows = Platform.Function.UpsertData("Master_CPC",["SubscriberKey"],[crmId],["Events","Newsletters","Offers","Destinations","RealEstate","EmailSubscriptionStatus"],[eventDEvalue,newslettersDEvalue,offersDEvalue,destinationsDEvalue,realEstateDEvalue,unsubscribeAll]);
+      
+    
+  }
+  catch (err) {
+    Write("Error Message-------------------: " + Stringify(err.message) + Stringify(err.description));
+  }
+</script>

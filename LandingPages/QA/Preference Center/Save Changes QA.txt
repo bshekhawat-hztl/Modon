@@ -1,0 +1,417 @@
+<script runat="server">
+  Platform.Load("core","1.1");
+  Write("inside222")
+  try {
+    var crmId = Request.GetQueryStringParameter("crmId");
+    var accountId =  Request.GetQueryStringParameter("accountId");
+    var opportunityId = Request.GetQueryStringParameter('opportunityId');
+    var title = Request.GetQueryStringParameter("title");
+    var firstName = Request.GetQueryStringParameter('firstName');
+    var lastName = Request.GetQueryStringParameter('lastName');
+    var email = Request.GetQueryStringParameter('email');
+    var phone = Request.GetQueryStringParameter('phone');
+    var birthday = Request.GetQueryStringParameter("birthday");
+    var country = Request.GetQueryStringParameter('country');
+    var jobTitle = Request.GetQueryStringParameter('jobTitle');
+    var jobTitleOtherValue = Request.GetQueryStringParameter('jobTitleOtherValue');
+    var language = Request.GetQueryStringParameter('language');
+    var familyMembers = Request.GetQueryStringParameter('familyMembers');
+    var kids = Request.GetQueryStringParameter("kids");
+    var budget = Request.GetQueryStringParameter('budget');
+    var surfing = Request.GetQueryStringParameter('surfing');
+    var cycling = Request.GetQueryStringParameter('cycling');
+    var skating = Request.GetQueryStringParameter('skating');
+    var mountainbiking = Request.GetQueryStringParameter("mountainbiking");
+    var fnb = Request.GetQueryStringParameter('fnb');
+    var gym = Request.GetQueryStringParameter('gym');
+    var kidsActivities = Request.GetQueryStringParameter('kidsActivities');
+    var familyActivities = Request.GetQueryStringParameter('familyActivities');
+    var healthBeauty = Request.GetQueryStringParameter("healthBeauty");
+    var spaWellness = Request.GetQueryStringParameter('spaWellness');
+    var shopping = Request.GetQueryStringParameter('shopping');
+    var artExhibitions = Request.GetQueryStringParameter('artExhibitions');
+    var beachesClub = Request.GetQueryStringParameter('beachesClub');
+    var waterSports = Request.GetQueryStringParameter("waterSports");
+    var sports = Request.GetQueryStringParameter('sports');
+    var yachting = Request.GetQueryStringParameter('yachting');
+    var circuitX = Request.GetQueryStringParameter('circuitX');
+    var marina = Request.GetQueryStringParameter('marina');
+    var babResortsCamps = Request.GetQueryStringParameter("babResortsCamps");
+    var events = Request.GetQueryStringParameter('events');
+    var newsletters = Request.GetQueryStringParameter("newsletters");
+    var offers = Request.GetQueryStringParameter('offers');
+    var destinations = Request.GetQueryStringParameter('destinations');
+    var realEstate = Request.GetQueryStringParameter('realEstate');
+    var unsubscribeAll = Request.GetQueryStringParameter('unsubscribeAll');
+    var purposeOfPurchase = Request.GetQueryStringParameter('purposeOfPurchase');
+    Write("<br>jobTitleOther: " + jobTitleOther);
+    Write("<br>newsletters: " + newsletters);
+    Write("<br>surfing: " + surfing);
+    if(jobTitleOtherValue.length>0){
+      jobTitle=jobTitleOtherValue;
+    }
+    
+    if(events=='false'){
+      events='Unsubscribed'
+      eventDEvalue='No'
+    }
+    else{
+      events='Active'
+      eventDEvalue='Yes'
+    }
+    if(newsletters=='false'){
+      newsletters='Unsubscribed'
+      newslettersDEvalue='No'
+    }
+    else{
+      newsletters='Active'
+      newslettersDEvalue='Yes'
+    }
+    if(offers=='false'){
+      offers='Unsubscribed'
+      offersDEvalue='No'
+    }
+    else{
+      offers='Active'
+      offersDEvalue='Yes'
+    }
+    if(destinations=='false'){
+      destinations='Unsubscribed'
+      destinationsDEvalue='No'
+    }
+    else{
+      destinations='Active'
+      destinationsDEvalue='Yes'
+    }
+    if(realEstate=='false'){
+      realEstate='Unsubscribed'
+      realEstateDEvalue='No'
+    }
+    else{
+      realEstate='Active'
+      realEstateDEvalue='Yes'
+    }
+    
+    if(surfing=='false'){
+      surfing='No'
+    }
+    else{
+      surfing='Yes'
+    }
+    if(cycling=='false'){
+      cycling='No'
+    }
+    else{
+      cycling='Yes'
+    }
+    if(skating=='false'){
+      skating='No'
+    }
+    else{
+      skating='Yes'
+    }
+    if(mountainbiking=='false'){
+      mountainbiking='No'
+    }
+    else{
+      mountainbiking='Yes'
+    }
+    if(fnb=='false'){
+      fnb='No'
+    }
+    else{
+      fnb='Yes'
+    }
+    
+    if(gym =='false'){
+      gym ='No'
+    }
+    else{
+      gym ='Yes'
+    }
+    if(kidsActivities =='false'){
+      kidsActivities ='No'
+    }
+    else{
+      kidsActivities ='Yes'
+    }
+    if(familyActivities =='false'){
+      familyActivities ='No'
+    }
+    else{
+      familyActivities ='Yes'
+    }
+    if(healthBeauty =='false'){
+      healthBeauty ='No'
+    }
+    else{
+      healthBeauty ='Yes'
+    }
+    if(spaWellness =='false'){
+      spaWellness ='No'
+    }
+    else{
+      spaWellness ='Yes'
+    }
+    
+    if(shopping =='false'){
+      shopping ='No'
+    }
+    else{
+      shopping ='Yes'
+    }
+    if(artExhibitions =='false'){
+      artExhibitions ='No'
+    }
+    else{
+      artExhibitions ='Yes'
+    }
+    if(beachesClub =='false'){
+      beachesClub ='No'
+    }
+    else{
+      beachesClub ='Yes'
+    }
+    if(sports  =='false'){
+      sports  ='No'
+    }
+    else{
+      sports  ='Yes'
+    }
+    if(yachting =='false'){
+      yachting ='No'
+    }
+    else{
+      yachting ='Yes'
+    }
+    
+    if(circuitX =='false'){
+      circuitX ='No'
+    }
+    else{
+      circuitX ='Yes'
+    }
+    if(marina =='false'){
+      marina ='No'
+    }
+    else{
+      marina ='Yes'
+    }
+    if(babResortsCamps =='false'){
+      babResortsCamps ='No'
+    }
+    else{
+      babResortsCamps ='Yes'
+    }
+    if(unsubscribeAll=='false'){
+      unsubscribeAll='Yes'
+      unsubscribe='Active'
+      
+    }
+    else{
+      unsubscribeAll='No'
+      unsubscribe='Unsubscribed'
+      events='Unsubscribed'
+      eventDEvalue='No'
+      realEstate='Unsubscribed'
+      realEstateDEvalue='No'
+      destinations='Unsubscribed'
+      destinationsDEvalue='No'
+      offers='Unsubscribed'
+      offersDEvalue='No'
+      newsletters='Unsubscribed'
+      newslettersDEvalue='No'
+      
+    }
+    Write("<br>title: " + title);
+    
+    Write("<br>firstName: " + firstName);
+    Write("<br>lastName: " + lastName);
+    Write("<br>email: " + email);
+    Write("<br>phone: " + phone);
+    Write("<br>birthday: " + birthday);
+    Write("<br>country: " + country);
+    Write("<br>jobTitle: " + jobTitle);
+    Write("<br>language: " + language);
+    Write("<br>familyMembers: " + familyMembers);
+    Write("<br>kids: " + kids);
+    Write("<br>budget: " + budget);
+    Write("<br>surfing: " + surfing);
+    Write("<br>cycling: " + cycling);
+    Write("<br>skating: " + skating);
+    Write("<br>mountainbiking: " + mountainbiking);
+    Write("<br>fnb: " + fnb);
+    Write("<br>gym: " + gym);
+    Write("<br>kidsActivities: " + kidsActivities);
+    Write("<br>familyActivities: " + familyActivities);
+    Write("<br>healthBeauty: " + healthBeauty);
+    Write("<br>spaWellness: " + spaWellness);
+    Write("<br>shopping: " + shopping);
+    Write("<br>artExhibitions: " + artExhibitions);
+    Write("<br>beachesClub: " + beachesClub);
+    Write("<br>waterSports: " + waterSports);
+    Write("<br>sports: " + sports);
+    Write("<br>yachting: " + yachting);
+    Write("<br>circuitX: " + circuitX);
+    Write("<br>marina: " + marina);
+    Write("<br>babResortsCamps: " + babResortsCamps);
+    Write("<br>events: " + events);
+    Write("<br>newsletters: " + newsletters);
+    Write("<br>offers: " + offers);
+    Write("<br>destinations: " + destinations);
+    Write("<br>realEstate: " + realEstate);
+    Write("<br>unsubscribeAll: " + unsubscribeAll);
+    if (crmId.substring(0, 3)=='00Q'){
+      var leadFieldArr = [];
+      leadFieldArr.push('Title__c');
+      leadFieldArr.push(title);
+      leadFieldArr.push('FirstName');
+      leadFieldArr.push(firstName);
+      leadFieldArr.push('LastName');
+      leadFieldArr.push(lastName);
+      leadFieldArr.push('Email');
+      leadFieldArr.push(email);
+      leadFieldArr.push('Phone');
+      leadFieldArr.push(phone);
+      leadFieldArr.push('CountryOfResidence__c');
+      leadFieldArr.push(country);
+      leadFieldArr.push('Designation__c');
+      leadFieldArr.push(jobTitle);
+      leadFieldArr.push('LanguagePreference__c');
+      leadFieldArr.push(language);
+      leadFieldArr.push('CustomerBudget__c');
+      leadFieldArr.push(budget);
+      leadFieldArr.push('EmailSubscriptionstatus__c');
+      leadFieldArr.push(unsubscribeAll);
+      leadFieldArr.push('Investment__c');
+      leadFieldArr.push(purposeOfPurchase);
+      var updateSFObject = "";
+                  updateSFObject += "\%\%[";
+                  updateSFObject += "set @SFUpdateResults = UpdateSingleSalesforceObject('Lead',";
+                  updateSFObject += "'" + crmId + "','"+  leadFieldArr.join("','") + "'";
+                  updateSFObject += ") ";
+                  updateSFObject += "output(concat(@SFUpdateResults)) ";
+                  updateSFObject += "]\%\%";
+
+      var results = Platform.Function.TreatAsContent(updateSFObject);
+      Write("final result - " + Stringify(results));
+    }
+    else{
+      var accFieldArr = [];
+      accFieldArr.push('PersonTitle');
+      accFieldArr.push(title);
+      accFieldArr.push('FirstName');
+      accFieldArr.push(firstName);
+      accFieldArr.push('LastName');
+      accFieldArr.push(LastName);
+      accFieldArr.push('PersonEmail');
+      accFieldArr.push(email);
+      accFieldArr.push('Phone');
+      accFieldArr.push(phone);
+      var updateSFAccountObject = "";
+                  updateSFAccountObject += "\%\%[";
+                  updateSFAccountObject += "set @SFUpdateResults = UpdateSingleSalesforceObject('Account',";
+                  updateSFAccountObject += "'" + accountId + "','"+  accFieldArr.join("','") + "'";
+                  updateSFAccountObject += ") ";
+                  updateSFAccountObject += "output(concat(@SFUpdateResults)) ";
+                  updateSFAccountObject += "]\%\%";
+
+      var result = Platform.Function.TreatAsContent(updateSFAccountObject);
+      Write("final result - " + Stringify(result));
+      var oppFieldArr = [];
+      oppFieldArr.push('Designation__c');
+      oppFieldArr.push(jobTitle);
+      oppFieldArr.push('LanguagePreference__c');
+      oppFieldArr.push(language);
+      oppFieldArr.push('CustomerBudget__c');
+      oppFieldArr.push(budget);
+      oppFieldArr.push('Country__c');
+      oppFieldArr.push(country);
+      var updateSFOpportunityObject = "";
+                  updateSFOpportunityObject += "\%\%[";
+                  updateSFOpportunityObject += "set @SFUpdateResults = UpdateSingleSalesforceObject('Opportunity',";
+                  updateSFOpportunityObject += "'" + opportunityId + "','"+  oppFieldArr.join("','") + "'";
+                  updateSFOpportunityObject += ") ";
+                  updateSFOpportunityObject += "output(concat(@SFUpdateResults)) ";
+                  updateSFOpportunityObject += "]\%\%";
+
+      var result = Platform.Function.TreatAsContent(updateSFOpportunityObject);
+      Write("final result - " + Stringify(result));
+    }
+    
+    var rows = Platform.Function.UpsertData("Master_CPC",["SubscriberKey"],[crmId],["Title","FirstName","LastName","Email","Phone","CountryOfResidence","Designation","LanguagePreference","Birthday​","Investment","NumberOfFamilyMembers​","NumberOfKids","CustomerBudget","Surfing","Cycling","Skating","MountainBiking","F&B","Gym","KidsActivities","FamilyActivities","Health&Beauty","Spa&Wellness","Shopping","Art&Exhibitions","Beaches","WaterSports","321Sports","Yachting","CircuitX","Marina","BabAlNojoumResorts","Events","Newsletters","Offers","Destinations","RealEstate","EmailSubscriptionStatus"],[title,firstName,lastName,email,phone,country,jobTitle,language,birthday,purposeOfPurchase,familyMembers,kids,budget,surfing,cycling,skating,mountainbiking,fnb,gym,kidsActivities,familyActivities,healthBeauty,spaWellness,shopping,artExhibitions,beachesClub,waterSports,sports,yachting,circuitX,marina,babResortsCamps,eventDEvalue,newslettersDEvalue,offersDEvalue,destinationsDEvalue,realEstateDEvalue,unsubscribeAll]);
+    Write("<br> final result --" + rows);
+    
+    var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": {
+                                       "ID": '63',
+                                       "Action": "Update"
+                                     },
+                                     "Status": unsubscribe
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>");
+                          var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": [{
+                                    ID: 818,
+                                    Status: events
+                                }]
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>");
+                           var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": [{
+                                    ID: 819,
+                                    Status: newsletters
+                                }]
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>"); 
+                          var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": [{
+                                    ID: 820,
+                                    Status: offers
+                                }]
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>");
+                           var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": [{
+                                    ID: 821,
+                                    Status: destinations
+                                }]
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>"); 
+                        var resub = {
+                                     "SubscriberKey": crmId,
+                                     "Lists": [{
+                                    ID: 822,
+                                    Status: realEstate
+                                }]
+                                  };
+                          Write("resub = "+Stringify(resub)+"<br>");
+                            var subObj = Subscriber.Init(crmId);
+                            var updateStatus = subObj.Update(resub);
+                           Write("updateStatus = "+Stringify(updateStatus)+"<br>"); 
+    
+  }
+  catch (err) {
+    Write("Error Message-------------------: " + Stringify(err.message) + Stringify(err.description));
+  }
+</script>
